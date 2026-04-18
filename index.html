@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Nodra — Fractional Head of Design for Indian e-commerce</title>
+<meta name="description" content="Nodra is an independent design consultancy for Indian D2C and marketplace brands. 8+ years of senior design leadership from Fortune 500 e-commerce, paired with AI agents that accelerate the research." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Geist:wght@300;400;500;600;700&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          display: ['Fraunces', 'serif'],
+          body: ['Geist', 'sans-serif'],
+          sub: ['"Instrument Sans"', 'sans-serif'],
+        },
+        colors: {
+          paper: '#F5F1EA',
+          ink: '#1A1814',
+          muted: '#6B6357',
+          rule: '#CFC6B4',
+          accent: '#B5513A',
+          accentDim: '#EFD9CF',
+        },
+      }
+    }
+  }
+</script>
+
+<style>
+  :root {
+    --paper: #F5F1EA;
+    --ink: #1A1814;
+    --muted: #6B6357;
+    --rule: #CFC6B4;
+    --accent: #B5513A;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: 'Geist', sans-serif;
+    font-feature-settings: "ss01", "cv11";
+    letter-spacing: -0.011em;
+  }
+  .font-display { font-family: 'Fraunces', serif; font-variation-settings: "SOFT" 50, "WONK" 0; }
+  .font-sub {
+    font-family: 'Instrument Sans', sans-serif;
+    letter-spacing: -0.02em;
+    font-weight: 500;
+  }
+
+  body::before {
+    content: "";
+    position: fixed; inset: 0;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/><feColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.09 0 0 0 0 0.08 0 0 0 0 0.04 0'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>");
+    opacity: 0.6;
+    z-index: 1;
+    mix-blend-mode: multiply;
+  }
+  main, header, footer { position: relative; z-index: 2; }
+
+  .rule { height: 1px; background: var(--rule); }
+
+  .link-editorial { position: relative; }
+  .link-editorial::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: -2px;
+    height: 1px; background: currentColor; transform: scaleX(0);
+    transform-origin: left; transition: transform .35s ease;
+  }
+  .link-editorial:hover::after { transform: scaleX(1); }
+
+  @keyframes riseIn {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .rise { animation: riseIn .9s cubic-bezier(.2,.7,.2,1) both; }
+
+  .chat-bubble-bot {
+    background: #FFFFFF;
+    border: 1px solid var(--rule);
+    border-radius: 18px 18px 18px 4px;
+  }
+  .chat-bubble-user {
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 18px 18px 4px 18px;
+  }
+  .chat-option {
+    border: 1px solid var(--rule);
+    background: #FFFFFF;
+    transition: all .2s ease;
+    cursor: pointer;
+  }
+  .chat-option:hover {
+    border-color: var(--ink);
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .typing-dot { animation: typing 1.4s infinite both; }
+  .typing-dot:nth-child(2) { animation-delay: .2s; }
+  .typing-dot:nth-child(3) { animation-delay: .4s; }
+  @keyframes typing {
+    0%, 60%, 100% { opacity: .2; transform: translateY(0); }
+    30% { opacity: 1; transform: translateY(-3px); }
+  }
+
+  .dropcap::first-letter {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 4.5rem;
+    line-height: 0.9;
+    float: left;
+    margin: 0.1rem 0.6rem -0.2rem 0;
+    color: var(--accent);
+  }
+
+  button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+</style>
+</head>
+<body class="antialiased">
+
+<header class="border-b border-rule">
+  <div class="max-w-6xl mx-auto px-6 md:px-10 py-5 flex items-center justify-between">
+    <a href="#top" class="font-display text-xl tracking-tight">Nodra</a>
+    <nav class="hidden md:flex items-center gap-8 text-sm text-muted">
+      <a href="#pov" class="link-editorial hover:text-ink">Point of view</a>
+      <a href="#services" class="link-editorial hover:text-ink">Services</a>
+      <a href="#method" class="link-editorial hover:text-ink">Method</a>
+      <a href="#contact" class="link-editorial hover:text-ink">Contact</a>
+    </nav>
+    <a href="#contact" class="hidden md:inline-flex items-center gap-2 text-sm border border-ink rounded-full px-4 py-2 hover:bg-ink hover:text-paper transition">
+      Start a conversation
+      <span aria-hidden>→</span>
+    </a>
+    <button id="mobileMenuBtn" class="md:hidden text-ink" aria-label="Menu">
+      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <div id="mobileMenu" class="hidden md:hidden border-t border-rule px-6 py-4 space-y-3 text-sm">
+    <a href="#pov" class="block">Point of view</a>
+    <a href="#services" class="block">Services</a>
+    <a href="#method" class="block">Method</a>
+    <a href="#contact" class="block">Contact</a>
+  </div>
+</header>
+
+<main id="top">
+
+<section class="max-w-6xl mx-auto px-6 md:px-10 pt-16 md:pt-28 pb-20 md:pb-32">
+  <div class="rise">
+    <p class="text-sm tracking-widest uppercase text-muted mb-8">
+      <span class="inline-block w-8 h-px bg-muted align-middle mr-3"></span>
+      Independent design consulting · Based in Delhi
+    </p>
+
+    <h1 class="font-display text-5xl md:text-7xl lg:text-8xl leading-[0.95] tracking-tight max-w-5xl">
+      Design expertise for Indian e-commerce. We help D2C brands find the <em class="italic text-accent">revenue</em> hiding in their design.
+    </h1>
+
+    <p class="mt-10 md:mt-14 text-lg md:text-xl max-w-2xl leading-relaxed text-ink/70 font-normal" style="letter-spacing: -0.015em;">
+      8+ years of senior design leadership at a Fortune 500 e-commerce company — shipping at the scale where small design decisions become large revenue outcomes. Now available as a fractional Head of Design for Indian D2C and marketplace brands, with AI agents built into the workflow.
+    </p>
+
+    <div class="mt-12 flex flex-col sm:flex-row gap-4">
+      <a href="#contact" class="inline-flex items-center justify-center gap-2 bg-ink text-paper rounded-full px-7 py-4 text-base hover:bg-accent transition">
+        Start a conversation
+        <span aria-hidden>→</span>
+      </a>
+      <a href="#method" class="inline-flex items-center justify-center gap-2 border border-ink rounded-full px-7 py-4 text-base hover:bg-ink hover:text-paper transition">
+        How we work
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<section class="max-w-6xl mx-auto px-6 md:px-10 py-16">
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-6">
+    <div>
+      <div class="font-display text-5xl md:text-6xl text-ink">8<span class="text-2xl align-top">+</span></div>
+      <p class="text-sm text-muted mt-2">Years designing for e-commerce at Fortune 500 scale</p>
+    </div>
+    <div>
+      <div class="font-display text-5xl md:text-6xl text-ink">1,000<span class="text-2xl align-top">+</span></div>
+      <p class="text-sm text-muted mt-2">Product detail pages designed for Flipkart &amp; Amazon</p>
+    </div>
+    <div>
+      <div class="font-display text-5xl md:text-6xl text-ink">2,000<span class="text-2xl align-top">+</span></div>
+      <p class="text-sm text-muted mt-2">Ad banners created for Flipkart &amp; Amazon campaigns</p>
+    </div>
+    <div>
+      <div class="font-display text-5xl md:text-6xl text-ink">2</div>
+      <p class="text-sm text-muted mt-2">Largest marketplaces in India — worked across both</p>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<section id="pov" class="max-w-6xl mx-auto px-6 md:px-10 py-20 md:py-28">
+  <div class="grid md:grid-cols-12 gap-10">
+    <div class="md:col-span-4">
+      <p class="text-sm tracking-widest uppercase text-accent mb-4">Point of view</p>
+      <h2 class="font-sub text-3xl md:text-4xl leading-tight tracking-tight">What we actually believe about e-commerce design.</h2>
+    </div>
+    <div class="md:col-span-7 md:col-start-6">
+      <p class="dropcap text-lg leading-relaxed text-ink">
+        After 8+ years designing at marketplace scale — over 1,000 product detail pages and 2,000 ad banners for Flipkart and Amazon — one pattern is painfully clear: most Indian D2C brands don't have a design problem. They have a <em class="italic">conversion</em> problem that happens to look like a design problem. The homepage isn't why customers leave. The third checkout step is.
+      </p>
+      <p class="mt-6 text-lg leading-relaxed text-ink">
+        Founders hire agencies to make things prettier. They should be hiring someone who's seen what actually <em class="italic">converts</em> — at the scale where Flipkart and Amazon have already A/B-tested most of the answers. Prettier without converting is expensive decoration.
+      </p>
+      <p class="mt-6 text-lg leading-relaxed text-ink">
+        We bring design judgement calibrated by marketplace-scale experience, paired with AI agents that accelerate the research — so founders get the depth of a senior operator at the speed the work actually needs.
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<section id="services" class="max-w-6xl mx-auto px-6 md:px-10 py-20 md:py-28">
+  <div class="mb-16">
+    <p class="text-sm tracking-widest uppercase text-accent mb-4">Engagements</p>
+    <h2 class="font-sub text-4xl md:text-5xl leading-tight tracking-tight max-w-3xl">Three ways to work together. Priced clearly, so we both know where we stand.</h2>
+  </div>
+
+  <div class="grid md:grid-cols-3 gap-px bg-rule border border-rule">
+
+    <!-- Tier 1: Advisory Call -->
+    <article class="bg-paper p-8 md:p-10 flex flex-col">
+      <div class="flex items-baseline justify-between mb-6">
+        <span class="font-display text-5xl text-accent">01</span>
+        <span class="text-xs tracking-widest uppercase text-muted">Per session</span>
+      </div>
+      <h3 class="font-sub text-2xl md:text-3xl leading-tight mb-4 tracking-tight">Advisory Call</h3>
+      <p class="text-muted leading-relaxed mb-6">
+        A focused 60-minute strategic session. Founders bring us a specific decision — a redesign brief, a hiring call, a launch review — and walk away with a clear recommendation. The best way to begin working together.
+      </p>
+      <ul class="text-sm space-y-2 text-ink mb-8">
+        <li class="flex gap-2"><span class="text-accent">—</span> One hour, recorded for internal sharing</li>
+        <li class="flex gap-2"><span class="text-accent">—</span> Prep brief reviewed in advance</li>
+        <li class="flex gap-2"><span class="text-accent">—</span> Written follow-up summary</li>
+        <li class="flex gap-2"><span class="text-accent">—</span> Fee credited toward a larger engagement</li>
+      </ul>
+      <div class="mt-auto pt-6 border-t border-rule">
+        <div class="flex items-baseline justify-between">
+          <span class="font-display text-3xl">₹20,000</span>
+          <span class="text-sm text-muted">per session</span>
+        </div>
+        <a href="#contact" class="mt-4 inline-flex items-center gap-2 text-sm link-editorial">Book a session <span aria-hidden>→</span></a>
+      </div>
+    </article>
+
+    <!-- Tier 2: Launch Sprint -->
+    <article class="bg-paper p-8 md:p-10 flex flex-col border-y-2 md:border-y-0 md:border-x-2 border-accent relative">
+      <span class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-accent text-paper text-xs tracking-widest uppercase px-3 py-1 rounded-full">Most popular</span>
+      <div class="flex items-baseline justify-between mb-6">
+        <span class="font-display text-5xl text-accent">02</span>
+        <span class="text-xs tracking-widest uppercase text-muted">3-week sprint</span>
+      </div>
+      <h3 class="font-sub text-2xl md:text-3xl leading-tight mb-4 tracking-tight">Launch Sprint</h3>
+      <p class="text-muted leading-relaxed mb-6">
+        A focused 3-week engagement to prepare your next launch — new product, new category, or major seasonal push. We direct the strategy and review your team's execution, so you ship a launch that actually converts.
+      </p>
+      <ul class="text-sm space-y-2 text-ink mb-8">
+        <li class="flex gap-2"><span class="text-accent">—</span> Two 60-minute working sessions per week</li>
+        <li class="flex gap-2"><span class="text-accent">—</span> Launch strategy document with positioning and sequencing</li>
+        <li class="flex gap-2"><span class="text-accent">—</span> Creative direction for launch ad banners</li>
+        <li class="flex gap-2"><span class="text-accent">—</span> PDP review — layout, imagery, copy, and conversion structure</li>
+        <li class="flex gap-2"><span class="text-accent">—</span> Launch-day readiness checklist</li>
+        <li class="flex gap-2"><span class="text-accent">—</span> Async critique on all creative via Slack or email</li>
+      </ul>
+      <div class="mt-auto pt-6 border-t border-rule">
+        <div class="flex items-baseline justify-between">
+          <span class="font-display text-3xl">₹75K–1L</span>
+          <span class="text-sm text-muted">per sprint</span>
+        </div>
+        <a href="#contact" class="mt-4 inline-flex items-center gap-2 text-sm link-editorial">Plan a launch sprint <span aria-hidden>→</span></a>
+      </div>
+    </article>
+
+    <!-- Tier 3: Fractional Head of Design -->
+    <article class="bg-paper p-8 md:p-10 flex flex-col">
+      <div class="flex items-baseline justify-between mb-6">
+        <span class="font-display text-5xl text-accent">03</span>
+        <span class="text-xs tracking-widest uppercase text-muted">Ongoing retainer</span>
+      </div>
+      <h3 class="font-sub text-2xl md:text-3xl leading-tight mb-4 tracking-tight">Fractional Head&nbsp;of&nbsp;Design</h3>
+      <p class="text-muted leading-relaxed mb-6">
+        A part-time Head of Design for your company. We set direction, review your team's work, unblock strategic decisions, and coach in-house designers. For brands that need senior design judgement without the cost of a full-time hire.
+      </p>
+      <ul class="text-sm space-y-2 text-ink mb-8">
+        <li class="flex gap-2"><span class="text-accent">—</span> Weekly design review sessions</li>
+        <li class="flex gap-2"><span class="text-accent">—</span> Async critique on all shipping work</li>
+        <li class="flex gap-2"><span class="text-accent">—</span> Founder-level strategic input</li>
+        <li class="flex gap-2"><span class="text-accent">—</span> Quarterly roadmap planning</li>
+        <li class="flex gap-2"><span class="text-accent">—</span> Hiring and interviewing support</li>
+        <li class="flex gap-2"><span class="text-accent">—</span> Direct Slack access during business hours</li>
+      </ul>
+      <div class="mt-auto pt-6 border-t border-rule">
+        <div class="flex items-baseline justify-between">
+          <span class="font-display text-3xl">₹1.5–2.5L</span>
+          <span class="text-sm text-muted">per month</span>
+        </div>
+        <a href="#contact" class="mt-4 inline-flex items-center gap-2 text-sm link-editorial">Enquire about fit <span aria-hidden>→</span></a>
+      </div>
+    </article>
+
+  </div>
+
+  <p class="mt-10 text-sm text-muted max-w-3xl">
+    We direct and review creative — we don't execute pixels. If you need hands-on Figma work, logo design, or brand identity, we're happy to recommend two or three Indian studios we trust.
+  </p>
+</section>
+
+<div class="rule"></div>
+
+<section id="method" class="max-w-6xl mx-auto px-6 md:px-10 py-20 md:py-28">
+  <div class="mb-16">
+    <p class="text-sm tracking-widest uppercase text-accent mb-4">Method</p>
+    <h2 class="font-sub text-4xl md:text-5xl leading-tight tracking-tight max-w-3xl">The AIPL framework. Applied specifically to Indian e-commerce.</h2>
+    <p class="mt-6 text-lg text-muted max-w-2xl">
+      Every engagement runs through the same four-stage lens — Awareness, Interest, Purchase, Loyalty. Senior human judgement leads the thinking. AI agents accelerate the research — scraping category leaders, benchmarking competitor PDPs, surfacing patterns across thousands of data points — so the strategic work lands in days, not weeks.
+    </p>
+  </div>
+
+  <div class="grid md:grid-cols-4 gap-8">
+    <div>
+      <div class="font-display text-sm tracking-widest uppercase text-accent mb-3">A — Awareness</div>
+      <h3 class="font-sub text-xl mb-3 tracking-tight">Do they even get here?</h3>
+      <p class="text-sm text-muted leading-relaxed">
+        Meta and Google ad creative, landing page match, mobile load performance, first-impression trust signals. Most brands over-invest in ad spend and under-invest in the seconds after a click.
+      </p>
+    </div>
+    <div>
+      <div class="font-display text-sm tracking-widest uppercase text-accent mb-3">I — Interest</div>
+      <h3 class="font-sub text-xl mb-3 tracking-tight">Do they stay?</h3>
+      <p class="text-sm text-muted leading-relaxed">
+        Category architecture, PDP clarity, product photography hierarchy, social proof placement, FAQ friction. The Indian shopper hesitates earlier than the US shopper. Design should anticipate it.
+      </p>
+    </div>
+    <div>
+      <div class="font-display text-sm tracking-widest uppercase text-accent mb-3">P — Purchase</div>
+      <h3 class="font-sub text-xl mb-3 tracking-tight">Do they buy?</h3>
+      <p class="text-sm text-muted leading-relaxed">
+        Cart UX, checkout step architecture, COD vs prepaid nudges, address form friction, payment method coverage. This is where 70% of conversion revenue is won or lost.
+      </p>
+    </div>
+    <div>
+      <div class="font-display text-sm tracking-widest uppercase text-accent mb-3">L — Loyalty</div>
+      <h3 class="font-sub text-xl mb-3 tracking-tight">Do they return?</h3>
+      <p class="text-sm text-muted leading-relaxed">
+        Post-purchase experience, order tracking UX, returns clarity, email and WhatsApp touchpoints, repeat-purchase surface design. The second purchase costs a fraction of the first — if the design earns it.
+      </p>
+    </div>
+  </div>
+
+  <!-- AI-augmented process note -->
+  <div class="mt-20 md:mt-24 pt-10 border-t border-rule grid md:grid-cols-12 gap-8">
+    <div class="md:col-span-4">
+      <p class="text-sm tracking-widest uppercase text-accent">AI in the workflow</p>
+    </div>
+    <div class="md:col-span-7 md:col-start-6">
+      <p class="text-base md:text-lg text-ink leading-relaxed">
+        We use purpose-built AI agents throughout the engagement — for competitor PDP scraping, pattern analysis across thousands of reviews, category benchmarking, and first-draft research synthesis. The agents accelerate the unglamorous work. The judgement, the recommendations, and the conversations stay human.
+      </p>
+      <p class="mt-5 text-sm text-muted italic">
+        It is the difference between four weeks of manual research and four days of augmented research — with the same senior person doing the actual thinking.
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<section id="contact" class="max-w-6xl mx-auto px-6 md:px-10 py-20 md:py-28">
+  <div class="grid md:grid-cols-12 gap-12">
+    <div class="md:col-span-5">
+      <p class="text-sm tracking-widest uppercase text-accent mb-4">Get in touch</p>
+      <h2 class="font-sub text-4xl md:text-5xl leading-tight mb-6 tracking-tight">Let's see if we're a fit.</h2>
+      <p class="text-lg text-muted leading-relaxed mb-8">
+        We work with a limited number of brands each quarter. The assistant on the right runs a short conversation to understand your situation. If we're a good match, you'll be routed to the right engagement.
+      </p>
+      <div class="space-y-3 text-sm">
+        <div class="flex gap-3">
+          <span class="text-muted w-24 shrink-0">Email</span>
+          <a href="mailto:nodradesign@gmail.com" class="link-editorial">nodradesign@gmail.com</a>
+        </div>
+        <div class="flex gap-3">
+          <span class="text-muted w-24 shrink-0">LinkedIn</span>
+          <a href="https://www.linkedin.com/in/rohit-raj-08047b3b9/" target="_blank" rel="noopener noreferrer" class="link-editorial">linkedin.com/in/rohit-raj</a>
+        </div>
+        <div class="flex gap-3">
+          <span class="text-muted w-24 shrink-0">Based in</span>
+          <span>Delhi · Working across India</span>
+        </div>
+        <div class="flex gap-3">
+          <span class="text-muted w-24 shrink-0">Availability</span>
+          <span>Accepting 1 new engagement this quarter</span>
+        </div>
+      </div>
+
+      <a href="mailto:nodradesign@gmail.com?subject=Enquiry%20from%20the%20site"
+         class="mt-10 inline-flex items-center gap-2 text-sm link-editorial">
+        Or email directly <span aria-hidden>→</span>
+      </a>
+    </div>
+
+    <div class="md:col-span-7">
+      <div class="bg-white border border-rule rounded-2xl overflow-hidden shadow-[0_1px_0_rgba(0,0,0,0.02),0_20px_40px_-20px_rgba(0,0,0,0.1)]">
+        <div class="px-6 py-4 border-b border-rule flex items-center gap-3 bg-paper">
+          <div class="w-9 h-9 rounded-full bg-ink text-paper flex items-center justify-center font-display text-lg">•</div>
+          <div class="flex-1">
+            <p class="text-sm font-medium">Ask Nodra</p>
+            <p class="text-xs text-muted flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-green-600 inline-block"></span>
+              Helping screen new enquiries · ~3 minutes
+            </p>
+          </div>
+        </div>
+
+        <div id="chatMessages" class="px-6 py-6 h-96 overflow-y-auto space-y-4 text-sm"></div>
+
+        <div id="chatInput" class="px-6 py-4 border-t border-rule bg-paper"></div>
+      </div>
+      <p class="mt-4 text-xs text-muted">
+        Prefer email? Write directly to <a href="mailto:nodradesign@gmail.com" class="link-editorial">nodradesign@gmail.com</a>.
+      </p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="border-t border-rule">
+  <div class="max-w-6xl mx-auto px-6 md:px-10 py-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+    <div>
+      <p class="font-display text-lg">Nodra</p>
+      <p class="text-sm text-muted mt-1">E-commerce design consulting · Independent practice · Est. 2026</p>
+    </div>
+    <p class="text-xs text-muted">
+      © 2026 Nodra. Crafted in Delhi.
+    </p>
+  </div>
+</footer>
+
+<script>
+// === CONFIG: edit these values to personalise the site ===
+const CONFIG = {
+  brand: 'Nodra',
+  email: 'nodradesign@gmail.com',
+  // Formspree endpoint — live and configured
+  formspreeEndpoint: 'https://formspree.io/f/xrerkblo'
+};
+
+// Mobile menu toggle
+document.getElementById('mobileMenuBtn')?.addEventListener('click', () => {
+  document.getElementById('mobileMenu').classList.toggle('hidden');
+});
+
+// Qualification chatbot
+const chatMessages = document.getElementById('chatMessages');
+const chatInput = document.getElementById('chatInput');
+
+const state = { step: 0, answers: {} };
+
+const flow = [
+  {
+    key: 'intro',
+    bot: `Hello. A few quick questions to understand your situation — about 3 minutes. At the end, we'll route you to the right next step. Ready?`,
+    options: ["Yes, let's start", "I'll just email directly"]
+  },
+  {
+    key: 'role',
+    bot: "Great. First — what's your role at your company?",
+    options: ["Founder / Co-founder", "Head of Growth / Marketing", "Head of Product / Design", "Investor or advisor", "Other"]
+  },
+  {
+    key: 'stage',
+    bot: "Got it. What stage is the business at?",
+    options: ["Pre-revenue / early launch", "₹1–5 Cr ARR", "₹5–25 Cr ARR", "₹25 Cr+ ARR", "Not a D2C / e-commerce business"]
+  },
+  {
+    key: 'problem',
+    bot: "What's the actual problem you're trying to solve?",
+    options: [
+      "We have a major launch coming up",
+      "Traffic is fine, conversion is low",
+      "We're redesigning and want senior input",
+      "We have junior designers, no senior leader",
+      "Something else"
+    ]
+  },
+  {
+    key: 'timeline',
+    bot: "When do you ideally want to start?",
+    options: ["This month", "Next month", "This quarter", "Just exploring"]
+  },
+  {
+    key: 'budget',
+    bot: "Last question — rough budget for this? No wrong answer; it just helps route you.",
+    options: ["Under ₹20,000", "₹20K–1L (one-off engagement)", "₹1.5–3L / month (retainer)", "Flexible for the right fit", "No budget set yet"]
+  },
+  {
+    key: 'name',
+    bot: "Perfect. What's your name and the best email to reach you on?",
+    input: "text",
+    placeholder: "e.g. Priya Shah, priya@brand.com"
+  }
+];
+
+function qualify() {
+  const a = state.answers;
+
+  // Not a fit: wrong business type
+  if (a.stage === "Not a D2C / e-commerce business") {
+    return { message: `Thanks for being candid. We work specifically with D2C and e-commerce brands — so this likely isn't the right fit. If you'd still like to write in, ${CONFIG.email} is the address, and we'll point you toward someone better suited.` };
+  }
+
+  // Launch problem → Launch Sprint, as long as budget allows
+  if (a.problem === "We have a major launch coming up") {
+    if (a.budget === "Under ₹20,000") {
+      return { message: `For a launch, the best fit is the Launch Sprint (₹75K–1L, 3 weeks). That's above your stated budget, so the most useful starting point is an Advisory Call (₹20,000, 60 minutes) — we'll give you a launch-readiness review and you can decide whether to continue. We'll email within 24 hours.` };
+    }
+    return { message: `This sounds like a strong fit for the Launch Sprint (₹75K–1L over 3 weeks) — launch strategy, ad creative direction, and PDP review. We'll personally email within 24 hours with scope, timelines, and next steps.` };
+  }
+
+  // Retainer budget → Fractional Head of Design
+  if (a.budget === "₹1.5–3L / month (retainer)" || (a.budget === "Flexible for the right fit" && (a.problem === "We have junior designers, no senior leader" || a.role === "Founder / Co-founder"))) {
+    return { message: `This looks like a strong fit for Fractional Head of Design. We currently have capacity for one new engagement this quarter. You'll get a personal email within 24 hours to set up an introductory conversation.` };
+  }
+
+  // Mid-budget without launch → could be Launch Sprint or Advisory as entry
+  if (a.budget === "₹20K–1L (one-off engagement)" || a.budget === "Flexible for the right fit") {
+    return { message: `Based on what you've shared, the best entry point is an Advisory Call (₹20,000, 60 minutes) — you'll walk away with a clear recommendation and we can discuss whether a Launch Sprint or Fractional engagement fits next. We'll email within 24 hours to set it up.` };
+  }
+
+  // Low budget → Advisory Call
+  if (a.budget === "Under ₹20,000") {
+    return { message: `An Advisory Call (₹20,000, 60 minutes) is just above your stated budget, but it's the most useful starting point — you walk away with a specific recommendation on your question. If proceeding doesn't make sense, no pressure. We'll email within 24 hours.` };
+  }
+
+  // No budget set
+  if (a.budget === "No budget set yet") {
+    return { message: `Understood. Since there's no defined budget yet, we'll personally email you within 24 hours to understand the situation better before recommending the right engagement — likely starting with an Advisory Call.` };
+  }
+
+  return { message: `Thanks for the detail. We'll personally read through your responses and email within 24 hours. If you'd like to add context in the meantime, write to ${CONFIG.email}.` };
+}
+
+function addBot(text) {
+  return new Promise(resolve => {
+    const typing = document.createElement('div');
+    typing.className = 'flex gap-1.5 p-4 chat-bubble-bot w-fit';
+    typing.innerHTML = `
+      <span class="w-1.5 h-1.5 rounded-full bg-muted typing-dot"></span>
+      <span class="w-1.5 h-1.5 rounded-full bg-muted typing-dot"></span>
+      <span class="w-1.5 h-1.5 rounded-full bg-muted typing-dot"></span>
+    `;
+    chatMessages.appendChild(typing);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    setTimeout(() => {
+      typing.remove();
+      const msg = document.createElement('div');
+      msg.className = 'chat-bubble-bot p-4 max-w-[85%] leading-relaxed';
+      msg.textContent = text;
+      chatMessages.appendChild(msg);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+      resolve();
+    }, 700 + Math.random() * 500);
+  });
+}
+
+function addUser(text) {
+  const msg = document.createElement('div');
+  msg.className = 'chat-bubble-user p-4 max-w-[85%] ml-auto leading-relaxed';
+  msg.textContent = text;
+  chatMessages.appendChild(msg);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function renderInput(step) {
+  chatInput.innerHTML = '';
+
+  if (step.options) {
+    const wrap = document.createElement('div');
+    wrap.className = 'flex flex-wrap gap-2';
+    step.options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'chat-option text-sm px-4 py-2 rounded-full';
+      btn.textContent = opt;
+      btn.onclick = () => handleAnswer(opt);
+      wrap.appendChild(btn);
+    });
+    chatInput.appendChild(wrap);
+  } else if (step.input === 'text') {
+    const form = document.createElement('div');
+    form.className = 'flex gap-2';
+    form.innerHTML = `
+      <input type="text" id="textInput" placeholder="${step.placeholder}"
+        class="flex-1 px-4 py-2.5 border border-rule rounded-full text-sm bg-white focus:border-ink outline-none" />
+      <button id="sendBtn" type="button" class="px-5 py-2.5 bg-ink text-paper rounded-full text-sm hover:bg-accent transition">Send</button>
+    `;
+    chatInput.appendChild(form);
+    const input = document.getElementById('textInput');
+    const btn = document.getElementById('sendBtn');
+    const submit = () => {
+      const val = input.value.trim();
+      if (val) handleAnswer(val);
+    };
+    btn.onclick = submit;
+    input.onkeydown = (e) => { if (e.key === 'Enter') submit(); };
+    input.focus();
+  }
+}
+
+async function handleAnswer(answer) {
+  addUser(answer);
+  chatInput.innerHTML = '';
+
+  const currentStep = flow[state.step];
+  state.answers[currentStep.key] = answer;
+
+  if (currentStep.key === 'intro' && answer === "I'll just email directly") {
+    await addBot(`No problem at all. Write to ${CONFIG.email} — you'll get a personal reply within 24 hours.`);
+    chatInput.innerHTML = `
+      <a href="mailto:${CONFIG.email}?subject=Enquiry%20from%20the%20site"
+         class="inline-flex items-center gap-2 text-sm px-5 py-2.5 bg-ink text-paper rounded-full hover:bg-accent transition">
+        Open my email app →
+      </a>
+    `;
+    return;
+  }
+
+  state.step++;
+
+  if (state.step < flow.length) {
+    const next = flow[state.step];
+    await addBot(next.bot);
+    renderInput(next);
+  } else {
+    const result = qualify();
+    await addBot(result.message);
+
+    // Build a structured payload for submission
+    const payload = {
+      brand: CONFIG.brand,
+      submitted_at: new Date().toISOString(),
+      source: 'site-chatbot',
+      ...state.answers
+    };
+
+    // Show a "submitting" state while we send to Formspree
+    chatInput.innerHTML = `
+      <div class="flex items-center gap-2 text-sm text-muted">
+        <span class="w-1.5 h-1.5 rounded-full bg-muted typing-dot"></span>
+        <span class="w-1.5 h-1.5 rounded-full bg-muted typing-dot"></span>
+        <span class="w-1.5 h-1.5 rounded-full bg-muted typing-dot"></span>
+        <span class="ml-2">Sending your details…</span>
+      </div>
+    `;
+
+    // Attempt automatic submission to Formspree
+    let submissionSucceeded = false;
+    if (CONFIG.formspreeEndpoint && !CONFIG.formspreeEndpoint.includes('YOUR_FORM_ID')) {
+      try {
+        const response = await fetch(CONFIG.formspreeEndpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+        submissionSucceeded = response.ok;
+      } catch (err) {
+        console.error('Formspree submission failed:', err);
+        submissionSucceeded = false;
+      }
+    }
+
+    // Build mailto fallback (always available as backup)
+    const body = encodeURIComponent(
+      `Enquiry from the site\n\n` +
+      Object.entries(state.answers).map(([k, v]) => `${k.toUpperCase()}: ${v}`).join('\n')
+    );
+    const mailtoUrl = `mailto:${CONFIG.email}?subject=Enquiry%20from%20the%20site&body=${body}`;
+
+    if (submissionSucceeded) {
+      // Success state — confirm to user, offer email as optional extra
+      chatInput.innerHTML = `
+        <div class="space-y-3">
+          <div class="flex items-center gap-2 text-sm text-ink">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 6 9 17l-5-5" stroke="#2d7a4b"/>
+            </svg>
+            <span>Your details have been sent. We will be in touch within 24 hours.</span>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <a href="${mailtoUrl}" class="text-xs px-4 py-2 border border-rule rounded-full hover:border-ink transition">
+              Also email directly
+            </a>
+            <button type="button" onclick="location.reload()" class="text-xs px-4 py-2 border border-rule rounded-full hover:border-ink transition">
+              Start over
+            </button>
+          </div>
+        </div>
+      `;
+    } else {
+      // Fallback state — submission failed or endpoint not configured
+      chatInput.innerHTML = `
+        <div class="space-y-3">
+          <p class="text-xs text-muted">Send your details in one click:</p>
+          <div class="flex flex-wrap gap-2">
+            <a href="${mailtoUrl}"
+               class="text-sm px-5 py-2.5 bg-ink text-paper rounded-full hover:bg-accent transition inline-flex items-center gap-2">
+              Send my details via email →
+            </a>
+            <button type="button" onclick="location.reload()" class="text-sm px-5 py-2.5 border border-rule rounded-full hover:border-ink transition">
+              Start over
+            </button>
+          </div>
+        </div>
+      `;
+    }
+  }
+}
+
+async function startChat() {
+  const first = flow[0];
+  await addBot(first.bot);
+  renderInput(first);
+}
+
+startChat();
+</script>
+
+</body>
+</html>
