@@ -1,0 +1,35 @@
+# Nodra · robots.txt
+# Allow all standard search engines to crawl everything
+# AI search crawlers (GPTBot, ClaudeBot, PerplexityBot) explicitly allowed for AEO
+
+User-agent: *
+Allow: /
+
+# Explicitly allow AI search engine crawlers
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+# Block common scraper bots
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+# Sitemap
+Sitemap: https://nodra.design/sitemap.xml
