@@ -1,0 +1,575 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nodra.design — Interactive Demo</title>
+<meta name="description" content="Watch one product reference become a complete, channel-ready asset library.">
+<link rel="canonical" href="https://nodra.design/demo.html">
+<meta name="robots" content="index,follow">
+<meta name="theme-color" content="#09090A" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#F4F3EF" media="(prefers-color-scheme: light)">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://nodra.design/demo.html">
+<meta property="og:title" content="Nodra.design — interactive demo">
+<meta property="og:description" content="Run the pipeline and watch one product reference become a complete, channel-ready asset library.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;700&display=swap">
+<script>document.documentElement.classList.add('js')</script>
+<style>
+:root{
+  --ground:#09090A;--raise:#101012;--sunk:#050506;--ink:#F2F1ED;
+  --ink-soft:rgba(242,241,237,.56);--ink-dim:rgba(242,241,237,.34);--hair:rgba(242,241,237,.13);
+  --accent:#FF4A21;--accent-soft:rgba(255,74,33,.14);--ease:cubic-bezier(.16,1,.3,1);
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:dark light;
+}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){
+  --ground:#F4F3EF;--raise:#FFFFFF;--sunk:#ECEAE4;--ink:#0B0B0C;
+  --ink-soft:rgba(11,11,12,.6);--ink-dim:rgba(11,11,12,.38);--hair:rgba(11,11,12,.14);
+  --accent:#E03A12;--accent-soft:rgba(224,58,18,.1);}}
+:root[data-theme="light"]{--ground:#F4F3EF;--raise:#FFFFFF;--sunk:#ECEAE4;--ink:#0B0B0C;
+  --ink-soft:rgba(11,11,12,.6);--ink-dim:rgba(11,11,12,.38);--hair:rgba(11,11,12,.14);--accent:#E03A12;--accent-soft:rgba(224,58,18,.1)}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(84px + env(safe-area-inset-top,0px));-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:"Space Grotesk","Helvetica Neue",Helvetica,sans-serif;font-size:16px;line-height:1.5;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font:inherit;color:inherit}
+svg{display:block;width:100%;height:100%}
+::selection{background:var(--accent);color:#fff}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.mono{font-size:11px;letter-spacing:.17em;text-transform:uppercase;font-weight:500}
+.display{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;letter-spacing:-.035em;line-height:.95}
+.wrap{width:100%;max-width:1440px;margin:0 auto;padding-inline:clamp(18px,4vw,64px)}
+.eyebrow{display:flex;align-items:center;gap:10px;color:var(--ink-dim);margin-bottom:22px}
+.eyebrow::before{content:"";width:26px;height:1px;background:var(--accent)}
+h1,h2{text-wrap:balance}
+h2.sec{margin:0;font-size:clamp(28px,4.6vw,64px)}
+.lede{color:var(--ink-soft);max-width:58ch;font-size:clamp(15px,1.3vw,18px);margin:18px 0 0}
+.pad{padding-block:clamp(64px,11vh,130px)}
+
+.grain{position:fixed;inset:-200px;z-index:120;pointer-events:none;opacity:.13;mix-blend-mode:screen;
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E")}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]) .grain{mix-blend-mode:multiply;opacity:.2}}
+
+/* nav */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;gap:14px;
+ padding:14px clamp(18px,4vw,64px);padding-top:calc(14px + env(safe-area-inset-top,0px));
+ background:color-mix(in srgb,var(--ground) 76%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--hair)}
+.mark{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;letter-spacing:-.04em;font-size:19px}
+.mark span{color:var(--accent)}
+.nav__r{display:flex;align-items:center;gap:clamp(12px,2vw,26px)}
+.back{color:var(--ink-soft);transition:color .3s}.back:hover{color:var(--ink)}
+.cta{border:1px solid var(--hair);border-radius:99px;padding:9px 16px;position:relative;overflow:hidden}
+.cta::before{content:"";position:absolute;inset:0;background:var(--accent);transform:translate3d(0,101%,0);transition:transform .45s var(--ease)}
+.cta:hover::before{transform:none}.cta span{position:relative;z-index:2;transition:color .4s}.cta:hover span{color:#fff}
+.short{display:none}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:1px solid var(--ink);border-radius:99px;padding:14px 24px;position:relative;overflow:hidden;background:none;cursor:pointer}
+.btn span{position:relative;z-index:2;transition:color .4s var(--ease)}
+.btn::before{content:"";position:absolute;inset:0;background:var(--accent);transform:translate3d(0,101%,0);transition:transform .5s var(--ease)}
+.btn:hover::before{transform:none}.btn:hover span{color:#fff}
+.btn--fill{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn--fill::before{background:var(--ink)}.btn--fill:hover span{color:var(--ground)}
+.btn[disabled]{opacity:.55;cursor:progress}
+
+/* intro */
+.intro{padding-top:calc(130px + env(safe-area-inset-top,0px));padding-bottom:10px}
+.intro h1{margin:0;font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:clamp(34px,5.6vw,80px);line-height:1.02;letter-spacing:-.036em;max-width:17ch}
+.intro h1 em{font-family:"Instrument Serif",Georgia,serif;font-style:italic;font-weight:400;color:var(--accent);font-size:1.08em;line-height:0}
+.note{margin-top:22px;color:var(--ink-dim);display:inline-flex;gap:10px;align-items:center;border:1px dashed var(--hair);padding:7px 12px}
+
+/* run */
+.run__grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(14px,2vw,24px);margin-top:44px}
+.card{border:1px solid var(--hair);background:var(--raise);padding:clamp(18px,2.2vw,30px)}
+.card__label{color:var(--ink-dim);display:flex;justify-content:space-between;gap:10px}
+.input__art{aspect-ratio:1/1;margin:18px 0;border:1px solid var(--hair);overflow:hidden}
+.specs{display:grid;grid-template-columns:auto 1fr;gap:10px 18px;margin:0;font-size:14px}
+.specs dt{color:var(--ink-dim)}.specs dd{margin:0}
+.sw{display:inline-flex;gap:6px;vertical-align:middle}
+.sw i{width:14px;height:14px;border-radius:50%;border:1px solid var(--hair);display:inline-block}
+
+.stages{list-style:none;margin:16px 0 0;padding:0}
+.stages li{display:grid;grid-template-columns:36px 1fr auto;align-items:center;gap:8px;padding:11px 0;border-bottom:1px solid var(--hair);color:var(--ink-dim);transition:color .3s}
+.stages .n{font-size:11px;letter-spacing:.14em}
+.stages .nm{font-size:15px}
+.stages .st{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;display:inline-flex;align-items:center;gap:7px}
+.stages li.run{color:var(--ink)}
+.stages li.run .st::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent);animation:blink .7s ease-in-out infinite alternate}
+.stages li.done{color:var(--ink)}
+.stages li.done .st{color:var(--accent)}
+@keyframes blink{from{opacity:.25}to{opacity:1}}
+.prog{height:2px;background:var(--hair);margin:18px 0 14px;overflow:hidden}
+.prog i{display:block;height:100%;width:0;background:var(--accent);transition:width .5s var(--ease)}
+.console{background:var(--sunk);border:1px solid var(--hair);height:132px;overflow:auto;padding:12px 14px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;line-height:1.7;text-transform:none;letter-spacing:0}
+.console .ln{white-space:pre-wrap;color:var(--ink-soft)}
+.console .ln b{color:var(--accent);font-weight:500}
+.console .dim{color:var(--ink-dim)}
+.run__actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+
+/* library */
+.lib__top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:20px}
+.filters{display:flex;gap:8px;margin-top:30px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px}
+.filters::-webkit-scrollbar{display:none}
+.filters button{flex:none;border:1px solid var(--hair);background:none;border-radius:99px;padding:9px 15px;cursor:pointer;font-size:13px;color:var(--ink-soft);transition:all .3s}
+.filters button sup{font-size:10px;margin-left:4px;color:var(--ink-dim)}
+.filters button.on{background:var(--ink);color:var(--ground);border-color:var(--ink)}
+.filters button.on sup{color:var(--ground);opacity:.6}
+.lib__wrap{position:relative;margin-top:26px}
+.masonry{columns:4 230px;column-gap:14px}
+.tile{break-inside:avoid;margin:0 0 14px;border:1px solid var(--hair);background:var(--raise);transition:opacity .6s var(--ease),transform .6s var(--ease),filter .6s var(--ease),border-color .3s}
+.tile:hover{border-color:var(--accent)}
+.tile[hidden]{display:none}
+.tile__art{overflow:hidden}
+.tile figcaption{padding:11px 13px 13px;display:flex;flex-direction:column;gap:3px}
+.tile .ch{color:var(--accent);font-size:10px}
+.tile b{font-weight:500;font-size:14.5px}
+.tile .sz{color:var(--ink-dim);font-size:10px}
+.locked .tile{filter:blur(9px) saturate(.4);opacity:.3;transform:scale(.97)}
+.lock{position:absolute;inset:0;display:flex;align-items:flex-start;justify-content:center;padding-top:clamp(60px,14vh,160px);pointer-events:none;transition:opacity .5s}
+.lock__box{pointer-events:auto;text-align:center;background:color-mix(in srgb,var(--ground) 80%,transparent);backdrop-filter:blur(10px);border:1px solid var(--hair);padding:26px 28px;max-width:340px}
+.lock__box p{margin:0 0 16px;color:var(--ink-soft)}
+.unlocked .lock{opacity:0;pointer-events:none}
+.unlocked .lock__box{pointer-events:none}
+
+/* inspector */
+.insp{display:grid;grid-template-columns:1.35fr .65fr;gap:clamp(14px,2vw,24px);margin-top:40px;align-items:start}
+.compare{position:relative;aspect-ratio:16/10;border:1px solid var(--hair);overflow:hidden;user-select:none;touch-action:pan-y}
+.layer{position:absolute;inset:0}
+.layer.gen{clip-path:inset(0 0 0 50%)}
+.handle{position:absolute;top:0;bottom:0;left:50%;width:2px;margin-left:-1px;background:#fff;pointer-events:none;box-shadow:0 0 0 1px rgba(0,0,0,.15)}
+.handle span{position:absolute;top:50%;left:50%;width:42px;height:42px;margin:-21px 0 0 -21px;border-radius:50%;background:#fff;box-shadow:0 4px 18px rgba(0,0,0,.3)}
+.handle span::before{content:"‹ ›";position:absolute;inset:0;display:grid;place-items:center;color:#111;font-size:16px;letter-spacing:4px;padding-left:3px}
+.compare input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0;-webkit-appearance:none;appearance:none}
+.tag{position:absolute;top:12px;padding:5px 10px;background:rgba(10,10,11,.66);color:#F2F1ED;backdrop-filter:blur(6px);pointer-events:none;font-size:10px}
+.tag--l{left:12px}.tag--r{right:12px}
+.checks{list-style:none;margin:0;padding:0;border:1px solid var(--hair);background:var(--raise)}
+.checks li{display:grid;grid-template-columns:22px 1fr;gap:12px;padding:13px 16px;border-bottom:1px solid var(--hair);transition:background .4s}
+.checks li:last-child{border-bottom:0}
+.checks .ic{width:20px;height:20px;border-radius:50%;border:1px solid var(--ink-dim);display:grid;place-items:center;font-size:11px;color:transparent;transition:all .35s var(--ease);margin-top:1px}
+.checks b{font-weight:500;font-size:14.5px;display:block}
+.checks small{color:var(--ink-dim);font-size:12.5px}
+.checks li.ok .ic{background:var(--accent);border-color:var(--accent);color:#fff}
+.checks__head{display:flex;justify-content:space-between;padding:13px 16px;border-bottom:1px solid var(--hair);color:var(--ink-dim)}
+
+/* audit */
+.audit h2{margin:0;font-size:clamp(32px,6vw,86px);max-width:15ch}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:40px;max-width:780px}
+.field{display:flex;flex-direction:column;gap:7px}
+.field--wide{grid-column:1/-1}
+.field label{color:var(--ink-dim);font-size:11px;letter-spacing:.16em;text-transform:uppercase}
+.field input,.field select,.field textarea{background:transparent;border:1px solid var(--hair);padding:14px 15px;border-radius:0;outline:none;min-height:48px;width:100%;transition:border-color .3s}
+.field textarea{min-height:100px;resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent)}
+.field select option{background:var(--ground);color:var(--ink)}
+.form__foot{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-top:6px}
+.form__note{color:var(--ink-dim);font-size:12.5px;max-width:44ch;margin:0}
+
+footer{border-top:1px solid var(--hair);padding-block:28px 32px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;color:var(--ink-dim)}
+footer a:hover{color:var(--accent)}
+
+/* reveal */
+.js .rv{opacity:0;transform:translateY(28px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.js .rv.in{opacity:1;transform:none}
+
+@media (max-width:980px){
+  .run__grid,.insp{grid-template-columns:1fr}
+  .input__art{max-width:320px}
+}
+@media (max-width:760px){
+  .nav{padding-top:calc(12px + env(safe-area-inset-top,0px));padding-bottom:12px}
+  .mark{font-size:17px}
+  .full{display:none}.short{display:inline}
+  .cta{padding:8px 13px}
+  .intro{padding-top:calc(104px + env(safe-area-inset-top,0px))}
+  .run__grid{margin-top:30px}
+  .input{display:grid;grid-template-columns:110px 1fr;gap:14px;align-items:center}
+  .input .card__label{grid-column:1/-1}
+  .input__art{margin:0}
+  .specs{font-size:13px;gap:6px 12px}
+  .stages .nm{font-size:14px}
+  .run__actions .btn{flex:1 1 100%}
+  .masonry{columns:2 140px;column-gap:10px}
+  .tile{margin-bottom:10px}
+  .tile figcaption{padding:9px 10px 11px}
+  .tile b{font-size:13px}
+  .form{grid-template-columns:1fr}
+  .form__foot .btn{flex:1 1 100%}
+  footer{flex-direction:column}
+}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms !important;transition-duration:.01ms !important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="nav">
+  <a class="mark" href="index.html">nodra<span>.design</span></a>
+  <div class="nav__r">
+    <a class="back mono" href="index.html"><span class="full">← Back to site</span><span class="short">← Site</span></a>
+    <a class="cta mono" href="#audit"><span class="full">Book a Production Audit</span><span class="short">Book an Audit</span></a>
+  </div>
+</header>
+
+<main>
+  <section class="wrap intro">
+    <div class="eyebrow mono">Interactive demo</div>
+    <h1>One pair of earbuds. <em>A complete</em> asset library.</h1>
+    <p class="lede">Run the pipeline and watch a single product reference become every asset a launch needs — across marketplaces, D2C, paid social and video.</p>
+    <span class="note mono">Illustrative demo · stand-in visuals · real channel formats</span>
+  </section>
+
+  <!-- RUN -->
+  <section class="wrap pad" id="run" style="padding-top:clamp(40px,7vh,80px)">
+    <div class="run__grid">
+      <div class="card input rv">
+        <div class="card__label mono"><span>Input</span><span>01 reference</span></div>
+        <div class="input__art" id="inputArt"></div>
+        <dl class="specs">
+          <dt>Product</dt><dd>TWS earbuds + charging case</dd>
+          <dt>Colourways</dt><dd><span class="sw"><i style="background:#2B2B2F"></i><i style="background:#E6E0D4"></i><i style="background:#FF4A21"></i><i style="background:#9DB09F"></i></span></dd>
+          <dt>Channels</dt><dd>Amazon · Flipkart · Shopify · Social · Video</dd>
+          <dt>Brand rules</dt><dd>Loaded</dd>
+        </dl>
+      </div>
+
+      <div class="card rv">
+        <div class="card__label mono"><span>Nodra pipeline</span><span id="plStatus">Idle</span></div>
+        <ol class="stages" id="stages"></ol>
+        <div class="prog"><i id="progFill"></i></div>
+        <div class="console" id="console" aria-live="polite"><div class="ln dim">Ready. Press run to start.</div></div>
+        <div class="run__actions">
+          <button class="btn btn--fill" id="runBtn" type="button"><span id="runLabel">Run the pipeline</span><span>▶</span></button>
+          <a class="btn" href="#library"><span>Skip to results</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIBRARY -->
+  <section class="wrap pad" id="library" style="padding-top:clamp(30px,6vh,70px)">
+    <div class="lib__top">
+      <div>
+        <div class="eyebrow mono">Output library</div>
+        <h2 class="sec display"><span id="libCount">0</span> production-ready assets. One reference.</h2>
+      </div>
+    </div>
+    <div class="filters" id="filters" role="tablist" aria-label="Filter by channel"></div>
+    <div class="lib__wrap locked" id="libWrap">
+      <div class="masonry" id="grid"></div>
+      <div class="lock"><div class="lock__box">
+        <p>Run the pipeline to generate the library.</p>
+        <button class="btn btn--fill" type="button" data-run><span>Run the pipeline</span><span>▶</span></button>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- INSPECTOR -->
+  <section class="wrap pad" id="fidelity">
+    <div class="eyebrow mono">Fidelity inspector</div>
+    <h2 class="sec display">Same product. Every asset.</h2>
+    <p class="lede">Drag across the frame to compare the reference with a generated lifestyle asset. The scene changes — the product doesn't.</p>
+    <div class="insp">
+      <div class="compare rv" id="compare">
+        <div class="layer" id="refLayer"></div>
+        <div class="layer gen" id="genLayer"></div>
+        <div class="handle" id="handle"><span></span></div>
+        <span class="tag tag--l mono">Reference</span><span class="tag tag--r mono">Generated</span>
+        <input type="range" min="0" max="100" value="50" id="slider" aria-label="Compare reference and generated asset">
+      </div>
+      <div class="rv">
+        <div class="checks">
+          <div class="checks__head mono"><span>Fidelity &amp; brand QA</span><span id="qaCount">0 / 7</span></div>
+          <ul style="list-style:none;margin:0;padding:0" id="checks"></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AUDIT -->
+  <section class="wrap pad audit" id="audit">
+    <div class="eyebrow mono">Next step</div>
+    <h2 class="display">Run this on your product.</h2>
+    <p class="lede">Tell us about your next launch. We'll come back with a production audit and a sample set built on your actual product.</p>
+    <div class="form">
+      <div class="field"><label for="f-name">Name</label><input id="f-name" type="text" autocomplete="name"></div>
+      <div class="field"><label for="f-co">Company</label><input id="f-co" type="text" autocomplete="organization"></div>
+      <div class="field"><label for="f-web">Website</label><input id="f-web" type="url" placeholder="https://" autocomplete="url"></div>
+      <div class="field"><label for="f-cat">Product category</label>
+        <select id="f-cat"><option>Audio &amp; wearables</option><option>Consumer electronics</option><option>Mobile / devices</option><option>Beauty &amp; personal care</option><option>Fashion &amp; accessories</option><option>Home &amp; appliances</option><option>Other</option></select></div>
+      <div class="field field--wide"><label for="f-launch">Upcoming launch</label><input id="f-launch" type="text" placeholder="What's shipping, and when"></div>
+      <div class="field field--wide"><label for="f-chal">Current production challenge</label><textarea id="f-chal" placeholder="Where production is slowing you down today"></textarea></div>
+      <div class="form__foot">
+        <button class="btn btn--fill" id="submit" type="button"><span>Book a Production Audit</span><span>→</span></button>
+        <p class="form__note">Opens a pre-filled email to nodradesign@gmail.com, tagged as coming from the demo.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="wrap mono">
+    <span>© 2026 Nodra.design</span>
+    <a href="index.html">← Back to nodra.design</a>
+    <a href="mailto:nodradesign@gmail.com">nodradesign@gmail.com</a>
+  </footer>
+</main>
+
+<script>
+(function(){
+  /* artifact preview serves pages without a trailing slash — point back links at the published page */
+  if(/(^|\.)claude\.ai$/.test(location.hostname)){
+    document.querySelectorAll('a[href="index.html"]').forEach(function(a){
+      a.href='https://claude.ai/artifact/3LiL9GeQZtsPr6xzM6uhZk'; a.target='_top';
+    });
+  }
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ================= product + scene drawing ================= */
+  var COL={
+    graphite:{body:'#2B2B2F',hi:'#6A6A72',mesh:'#121214',name:'Graphite'},
+    bone:{body:'#E6E0D4',hi:'#FFFFFF',mesh:'#8E877A',name:'Bone'},
+    ember:{body:'#FF4A21',hi:'#FFB199',mesh:'#7A1E08',name:'Ember'},
+    sage:{body:'#9DB09F',hi:'#DDE7DE',mesh:'#46564A',name:'Sage'}
+  };
+  var TINT={graphite:['#1B1B1F','#35353C',1],bone:['#F1ECE2','#D9CFBE',0],ember:['#2A0E07','#6A2310',1],sage:['#E7EDE6','#BFCDBF',0]};
+  var uid=0;
+  function defs(id,g1,g2){
+    return '<defs><linearGradient id="sh'+id+'" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".34"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".3"/></linearGradient>'+
+      '<linearGradient id="bg'+id+'" x1="0" y1="0" x2=".6" y2="1"><stop offset="0" stop-color="'+g1+'"/><stop offset="1" stop-color="'+g2+'"/></linearGradient>'+
+      '<filter id="bl'+id+'" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="12"/></filter></defs>';
+  }
+  function body(tag,attrs,c,id){
+    return '<'+tag+' '+attrs+' fill="'+c.body+'" stroke="#000" stroke-opacity=".12"/><'+tag+' '+attrs+' fill="url(#sh'+id+')"/>';
+  }
+  function bud(c,x,y,id){
+    return '<g transform="translate('+x+','+y+')">'+
+      body('rect','x="-7" y="-4" width="14" height="54" rx="7"',c,id)+
+      body('ellipse','cx="0" cy="-14" rx="20" ry="18"',c,id)+
+      '<ellipse cx="-4" cy="-17" rx="8" ry="7" fill="'+c.mesh+'" opacity=".78"/>'+
+      '<circle cx="0" cy="45" r="2.3" fill="'+c.hi+'" opacity=".85"/></g>';
+  }
+  /* local coords: visual centre ≈ (-9,0), width ≈ 242, height ≈ 104 */
+  function product(c,x,y,s,id){
+    return '<g transform="translate('+x+','+y+') scale('+s+')">'+
+      body('rect','x="-130" y="-48" width="130" height="96" rx="44"',c,id)+
+      '<path d="M-126 -6 H-4" stroke="'+c.mesh+'" stroke-opacity=".5" stroke-width="1.5"/>'+
+      '<circle cx="-65" cy="-24" r="6" fill="none" stroke="'+c.mesh+'" stroke-opacity=".6" stroke-width="1.6"/>'+
+      '<circle cx="-65" cy="22" r="3" fill="'+c.hi+'"/>'+
+      bud(c,40,-6,id)+bud(c,92,6,id)+'</g>';
+  }
+  function P(c,x,y,s,id,op){ /* x,y = visual centre */
+    return '<ellipse cx="'+x+'" cy="'+(y+64*s)+'" rx="'+(128*s)+'" ry="'+(12*s)+'" fill="#000" opacity="'+op+'" filter="url(#bl'+id+')"/>'+product(c,x+9*s,y,s,id);
+  }
+  function bars(x,y,w,dark,cta){
+    var a=dark?'#F2F1ED':'#0B0B0C';
+    var s='<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+(w*.1)+'" rx="'+(w*.015)+'" fill="'+a+'" opacity=".9"/>'+
+          '<rect x="'+x+'" y="'+(y+w*.15)+'" width="'+(w*.68)+'" height="'+(w*.045)+'" rx="'+(w*.015)+'" fill="'+a+'" opacity=".38"/>';
+    if(cta) s+='<rect x="'+x+'" y="'+(y+w*.27)+'" width="'+(w*.36)+'" height="'+(w*.1)+'" rx="'+(w*.05)+'" fill="#FF4A21"/>';
+    return s;
+  }
+  function play(cx,cy,r){
+    return '<circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="#000" fill-opacity=".45" stroke="#fff" stroke-opacity=".7" stroke-width="2"/>'+
+      '<path d="M'+(cx-r*.3)+' '+(cy-r*.42)+' L'+(cx+r*.46)+' '+cy+' L'+(cx-r*.3)+' '+(cy+r*.42)+' Z" fill="#fff"/>';
+  }
+  function scene(t){
+    var id=++uid, W=1000, H=Math.round(W*t.r[1]/t.r[0]), m=Math.min(W,H);
+    var c=COL[t.c], tn=TINT[t.c], dark=!!tn[2], g='', bg='<rect width="'+W+'" height="'+H+'" fill="url(#bg'+id+')"/>';
+    switch(t.sc){
+      case 'pdp':
+        g='<rect width="'+W+'" height="'+H+'" fill="'+t.bg+'"/>'+P(c,W/2,H/2,m/400*1.05,id,.2); break;
+      case 'life':
+        var disc=t.c==='ember'?'#F2F1ED':'#FF4A21';
+        g=bg+'<circle cx="'+(W*.6)+'" cy="'+(H*.42)+'" r="'+(m*.31)+'" fill="'+disc+'" opacity="'+(t.c==='ember'?.14:.9)+'"/>'+
+          '<rect y="'+(H*.68)+'" width="'+W+'" height="'+(H*.32)+'" fill="#000" opacity="'+(dark?.25:.07)+'"/>'+
+          P(c,W/2,H*.54,m/400*.95,id,dark?.6:.28); break;
+      case 'macro':
+        var S=m/400*3.4;
+        g=bg+'<circle cx="'+(W*.5)+'" cy="'+(H*.46)+'" r="'+(m*.42)+'" fill="#FF4A21" opacity=".16"/>'+
+          product(c,W*.52-40*S,H*.47+20*S,S,id)+
+          '<rect x="'+(W*.07)+'" y="'+(H*.86)+'" width="'+(W*.26)+'" height="'+(H*.025)+'" rx="4" fill="#F2F1ED" opacity=".55"/>'; break;
+      case 'banner':
+        g=bg+bars(W*.07,H*.28,W*.36,dark,true)+P(c,W*.7,H*.52,H/400*1.2,id,dark?.6:.25); break;
+      case 'aplus':
+        g='<rect width="'+W+'" height="'+H+'" fill="#0E0E10"/><circle cx="'+(W*.64)+'" cy="'+(H*.5)+'" r="'+(H*.42)+'" fill="#FF4A21" opacity=".14"/>'+
+          P(c,W*.64,H*.5,H/400*1.1,id,.6);
+        for(var k=0;k<3;k++){var yy=H*(.3+k*.2);
+          g+='<rect x="'+(W*.07)+'" y="'+(yy-H*.018)+'" width="'+(W*.17)+'" height="'+(H*.036)+'" rx="3" fill="#F2F1ED" opacity=".75"/>'+
+             '<path d="M'+(W*.27)+' '+yy+' H'+(W*.44)+'" stroke="#F2F1ED" stroke-opacity=".35" stroke-dasharray="4 5"/>'+
+             '<circle cx="'+(W*.45)+'" cy="'+yy+'" r="5" fill="#FF4A21"/>';}
+        break;
+      case 'social':
+        g=bg+bars(W*.1,H*.09,W*.6,dark,false)+P(c,W/2,H*.6,W/400*1.02,id,dark?.6:.25)+
+          '<rect x="'+(W*.1)+'" y="'+(H*.86)+'" width="'+(W*.32)+'" height="'+(H*.06)+'" rx="'+(H*.03)+'" fill="#FF4A21"/>'; break;
+      case 'story':
+        g=bg+P(c,W/2,H*.44,W/400*1.28,id,dark?.6:.25)+bars(W*.1,H*.68,W*.72,dark,true);
+        for(var q=0;q<3;q++) g+='<rect x="'+(W*.06+q*W*.3)+'" y="'+(H*.03)+'" width="'+(W*.28)+'" height="5" rx="2.5" fill="'+(dark?'#F2F1ED':'#0B0B0C')+'" opacity="'+(q===0?.9:.3)+'"/>';
+        if(t.play) g+=play(W/2,H*.44,W*.1); break;
+      case 'video':
+        g=bg+'<rect width="'+W+'" height="'+H+'" fill="#000" opacity=".45"/>'+P(c,W*.55,H*.5,H/400*1.1,id,.6)+play(W*.5,H*.5,H*.1)+
+          '<rect x="'+(W*.06)+'" y="'+(H*.9)+'" width="'+(W*.88)+'" height="4" rx="2" fill="#fff" opacity=".25"/>'+
+          '<rect x="'+(W*.06)+'" y="'+(H*.9)+'" width="'+(W*.3)+'" height="4" rx="2" fill="#FF4A21"/>'; break;
+      case 'lineup':
+        g='<rect width="'+W+'" height="'+H+'" fill="#F4F3EF"/>';
+        ['graphite','bone','ember','sage'].forEach(function(k,i){ g+=P(COL[k],W*(.14+.24*i),H*.5,H/400*.6,id,.2); });
+        break;
+    }
+    return '<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet" aria-hidden="true">'+defs(id,tn[0],tn[1])+g+'</svg>';
+  }
+
+  /* ================= data ================= */
+  var CH={amazon:'Amazon',flipkart:'Flipkart',shopify:'D2C / Shopify',social:'Paid social',video:'Video'};
+  var T=[
+    {ch:'amazon',f:'Main image',r:[1,1],sz:'2000 × 2000',sc:'pdp',c:'graphite',bg:'#FFFFFF'},
+    {ch:'social',f:'Story ad',r:[9,16],sz:'1080 × 1920',sc:'story',c:'ember'},
+    {ch:'shopify',f:'Macro detail',r:[1,1],sz:'2048 × 2048',sc:'macro',c:'graphite'},
+    {ch:'amazon',f:'A+ module',r:[970,600],sz:'970 × 600',sc:'aplus',c:'graphite'},
+    {ch:'flipkart',f:'Lifestyle',r:[4,5],sz:'4 : 5',sc:'life',c:'graphite'},
+    {ch:'amazon',f:'Main image',r:[1,1],sz:'2000 × 2000',sc:'pdp',c:'bone',bg:'#FFFFFF'},
+    {ch:'video',f:'Hero film',r:[16,9],sz:'1920 × 1080',sc:'video',c:'graphite'},
+    {ch:'social',f:'Feed ad',r:[4,5],sz:'1080 × 1350',sc:'social',c:'sage'},
+    {ch:'shopify',f:'Colourway lineup',r:[16,9],sz:'2048 × 1152',sc:'lineup',c:'graphite'},
+    {ch:'amazon',f:'Main image',r:[1,1],sz:'2000 × 2000',sc:'pdp',c:'ember',bg:'#FFFFFF'},
+    {ch:'flipkart',f:'Offer banner',r:[16,9],sz:'Wide slot',sc:'banner',c:'ember'},
+    {ch:'video',f:'Reel',r:[9,16],sz:'1080 × 1920',sc:'story',c:'bone',play:true},
+    {ch:'amazon',f:'Lifestyle',r:[1,1],sz:'2000 × 2000',sc:'life',c:'bone'},
+    {ch:'shopify',f:'Product image',r:[1,1],sz:'2048 × 2048',sc:'pdp',c:'ember',bg:'#F4F3EF'},
+    {ch:'social',f:'Feed ad',r:[4,5],sz:'1080 × 1350',sc:'social',c:'graphite'},
+    {ch:'flipkart',f:'Gallery image',r:[1,1],sz:'1 : 1',sc:'pdp',c:'sage',bg:'#F4F3EF'},
+    {ch:'amazon',f:'Main image',r:[1,1],sz:'2000 × 2000',sc:'pdp',c:'sage',bg:'#FFFFFF'},
+    {ch:'video',f:'6s bumper',r:[16,9],sz:'1920 × 1080',sc:'video',c:'sage'},
+    {ch:'social',f:'Square ad',r:[1,1],sz:'1080 × 1080',sc:'life',c:'ember'},
+    {ch:'shopify',f:'Product image',r:[1,1],sz:'2048 × 2048',sc:'pdp',c:'bone',bg:'#EDEBE5'},
+    {ch:'flipkart',f:'Gallery image',r:[1,1],sz:'1 : 1',sc:'pdp',c:'graphite',bg:'#F4F3EF'}
+  ];
+  var N=T.length, CHN=Object.keys(CH).length;
+
+  /* ================= render input + library ================= */
+  document.getElementById('inputArt').innerHTML=scene({r:[1,1],sc:'pdp',c:'graphite',bg:'#F4F3EF'});
+  var grid=document.getElementById('grid');
+  grid.innerHTML=T.map(function(t,i){
+    return '<figure class="tile" data-ch="'+t.ch+'" style="transition-delay:'+(i*45)+'ms">'+
+      '<div class="tile__art" style="aspect-ratio:'+t.r[0]+'/'+t.r[1]+'">'+scene(t)+'</div>'+
+      '<figcaption><span class="ch mono">'+CH[t.ch]+'</span><b>'+t.f+'</b><span class="sz mono">'+t.sz+' · '+COL[t.c].name+'</span></figcaption></figure>';
+  }).join('');
+
+  var fil=document.getElementById('filters');
+  var counts={all:N}; T.forEach(function(t){counts[t.ch]=(counts[t.ch]||0)+1;});
+  fil.innerHTML='<button class="on" data-f="all" role="tab" aria-selected="true">All<sup>'+N+'</sup></button>'+
+    Object.keys(CH).map(function(k){return '<button data-f="'+k+'" role="tab" aria-selected="false">'+CH[k]+'<sup>'+counts[k]+'</sup></button>';}).join('');
+  fil.addEventListener('click',function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    fil.querySelectorAll('button').forEach(function(x){x.classList.toggle('on',x===b);x.setAttribute('aria-selected',x===b);});
+    var f=b.dataset.f;
+    grid.querySelectorAll('.tile').forEach(function(tl){ tl.hidden=!(f==='all'||tl.dataset.ch===f); });
+  });
+
+  /* ================= inspector ================= */
+  (function(){
+    var W=1000,H=625, s=H/400*1.3, g=COL.graphite;
+    var a=++uid, b=++uid;
+    var ref='<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid slice" aria-hidden="true">'+defs(a,'#DAD8D2','#CFCCC5')+
+      '<rect width="'+W+'" height="'+H+'" fill="url(#bg'+a+')"/>'+
+      '<g stroke="#0B0B0C" stroke-opacity=".08">'+[1,2,3,4,5,6,7,8,9].map(function(i){return '<path d="M'+(i*100)+' 0V'+H+'"/>';}).join('')+
+        [1,2,3,4,5].map(function(i){return '<path d="M0 '+(i*104)+'H'+W+'"/>';}).join('')+'</g>'+
+      P(g,W/2,H/2,s,a,.18)+
+      '<g stroke="#0B0B0C" stroke-opacity=".5" stroke-width="1.5"><path d="M'+(W/2-121*s)+' '+(H/2+86*s)+'H'+(W/2+121*s)+'"/>'+
+        '<path d="M'+(W/2-121*s)+' '+(H/2+80*s)+'v12M'+(W/2+121*s)+' '+(H/2+80*s)+'v12"/></g>'+
+      '<g stroke="#FF4A21" stroke-width="2" fill="none"><path d="M40 70V40h30M'+(W-40)+' 70V40h-30M40 '+(H-70)+'v30h30M'+(W-40)+' '+(H-70)+'v30h-30"/></g></svg>';
+    var gen='<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid slice" aria-hidden="true">'+defs(b,'#EFE8DC','#D6C9B4')+
+      '<rect width="'+W+'" height="'+H+'" fill="url(#bg'+b+')"/>'+
+      '<circle cx="'+(W*.63)+'" cy="'+(H*.4)+'" r="'+(H*.38)+'" fill="#FF4A21"/>'+
+      '<rect y="'+(H/2+56*s)+'" width="'+W+'" height="'+H+'" fill="#000" opacity=".08"/>'+
+      P(g,W/2,H/2,s,b,.32)+'</svg>';
+    document.getElementById('refLayer').innerHTML=ref;
+    document.getElementById('genLayer').innerHTML=gen;
+    var sl=document.getElementById('slider'),gl=document.getElementById('genLayer'),hd=document.getElementById('handle');
+    function upd(){ var v=sl.value; gl.style.clipPath='inset(0 0 0 '+v+'%)'; hd.style.left=v+'%'; }
+    sl.addEventListener('input',upd); upd();
+  })();
+
+  var CHECKS=[
+    ['Geometry','Case and bud form held to reference'],
+    ['Materials','Gloss case, matte stem, mesh grille'],
+    ['Colours','All 4 colourways matched to swatch'],
+    ['Logos','Mark placement and clear space'],
+    ['Physical details','Charging contacts, LED, lid seam'],
+    ['Proportions','Bud-to-case scale locked'],
+    ['Brand guidelines','Type, colour and layout rules applied']
+  ];
+  var checks=document.getElementById('checks');
+  checks.innerHTML=CHECKS.map(function(c){return '<li><span class="ic">✓</span><div><b>'+c[0]+'</b><small>'+c[1]+'</small></div></li>';}).join('');
+
+  /* ================= pipeline run ================= */
+  var STAGES=[
+    ['Product',700,'Reference ingested · 1 product · 4 colourways'],
+    ['Brand + product intelligence',900,'Brand rules loaded · colour tokens · logo clear-space'],
+    ['Creative direction',900,'Shot list locked · '+CHN+' channels'],
+    ['AI production',1500,'Master assets generated'],
+    ['Automated adaptation',1000,'Adapted to '+N+' channel formats'],
+    ['Fidelity & brand QA',1200,CHECKS.length+' / '+CHECKS.length+' checks passed'],
+    ['Production-ready delivery',700,N+' assets packaged · named per channel']
+  ];
+  var st=document.getElementById('stages');
+  st.innerHTML=STAGES.map(function(s,i){return '<li><span class="n">0'+(i+1)+'</span><span class="nm">'+s[0].replace('&','&amp;')+'</span><span class="st">Queued</span></li>';}).join('');
+  var lis=st.querySelectorAll('li'),con=document.getElementById('console'),fill=document.getElementById('progFill'),
+      status=document.getElementById('plStatus'),btn=document.getElementById('runBtn'),lbl=document.getElementById('runLabel'),
+      wrap=document.getElementById('libWrap'),countEl=document.getElementById('libCount'),qa=document.getElementById('qaCount');
+  var running=false, t0=0;
+
+  function log(html){ var d=document.createElement('div'); d.className='ln';
+    var sec=((performance.now()-t0)/1000).toFixed(1); d.innerHTML='<span class="dim">['+('0'+sec).slice(-4)+'s]</span> '+html;
+    con.appendChild(d); con.scrollTop=con.scrollHeight; }
+  function reset(){
+    lis.forEach(function(l){l.className='';l.querySelector('.st').textContent='Queued';});
+    fill.style.width='0'; con.innerHTML=''; wrap.classList.add('locked'); wrap.classList.remove('unlocked');
+    checks.querySelectorAll('li').forEach(function(l){l.classList.remove('ok');}); qa.textContent='0 / 7'; countEl.textContent='0';
+  }
+  function countUp(to){ var n=0, step=function(){ n++; countEl.textContent=n; if(n<to) setTimeout(step,reduce?0:32); }; step(); }
+
+  function run(){
+    if(running) return; running=true; reset(); t0=performance.now();
+    btn.disabled=true; lbl.textContent='Running…'; status.textContent='Running';
+    log('Pipeline started');
+    var i=0, speed=reduce?.15:1;
+    (function next(){
+      if(i>0){ var p=lis[i-1]; p.className='done'; p.querySelector('.st').textContent='Done ✓'; log('<b>✓</b> '+STAGES[i-1][2]); }
+      if(i===5){ /* QA stage: tick checks as it runs */
+        checks.querySelectorAll('li').forEach(function(l,k){ setTimeout(function(){l.classList.add('ok'); qa.textContent=(k+1)+' / 7';}, (k+1)*150*speed); });
+      }
+      if(i>=STAGES.length){ return finish(); }
+      var l=lis[i]; l.className='run'; l.querySelector('.st').textContent='Running';
+      fill.style.width=((i+.5)/STAGES.length*100)+'%';
+      var d=STAGES[i][1]*speed; i++; setTimeout(next,d);
+    })();
+  }
+  function finish(){
+    fill.style.width='100%'; status.textContent='Complete'; log('<b>Done.</b> '+N+' assets ready across '+CHN+' channels.');
+    btn.disabled=false; lbl.textContent='Run again'; running=false;
+    wrap.classList.remove('locked'); wrap.classList.add('unlocked'); countUp(N);
+    setTimeout(function(){ document.getElementById('library').scrollIntoView({behavior:reduce?'auto':'smooth'}); }, reduce?0:700);
+  }
+  btn.addEventListener('click',run);
+  document.querySelectorAll('[data-run]').forEach(function(b){ b.addEventListener('click',function(){
+    document.getElementById('run').scrollIntoView({behavior:reduce?'auto':'smooth'}); setTimeout(run,reduce?0:600); }); });
+
+  /* ================= reveals ================= */
+  var rv=document.querySelectorAll('.rv');
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} }); },{rootMargin:'0px 0px -8% 0px'});
+    rv.forEach(function(el){io.observe(el);});
+  } else rv.forEach(function(el){el.classList.add('in');});
+
+  /* ================= audit form ================= */
+  document.getElementById('submit').addEventListener('click',function(){
+    function v(id){var e=document.getElementById(id);return e?e.value.trim():'';}
+    var body=['Source: Interactive demo','','Name: '+v('f-name'),'Company: '+v('f-co'),'Website: '+v('f-web'),'Product category: '+v('f-cat'),
+      'Upcoming launch: '+v('f-launch'),'','Current production challenge:',v('f-chal')].join('\n');
+    location.href='mailto:nodradesign@gmail.com?subject='+encodeURIComponent('Production Audit request (from demo) — '+(v('f-co')||v('f-name')||'New enquiry'))+'&body='+encodeURIComponent(body);
+  });
+})();
+</script>
+</body>
+</html>
