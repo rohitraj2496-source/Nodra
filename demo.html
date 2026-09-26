@@ -169,6 +169,8 @@ h2.sec{margin:0;font-size:clamp(28px,4.6vw,64px)}
 .field input,.field select,.field textarea{background:transparent;border:1px solid var(--hair);padding:14px 15px;border-radius:0;outline:none;min-height:48px;width:100%;transition:border-color .3s}
 .field textarea{min-height:100px;resize:vertical}
 .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent)}
+.field input.err,.field textarea.err{border-color:var(--accent)}
+.req{font-style:normal;color:var(--accent);margin-left:2px}
 .field select option{background:var(--ground);color:var(--ink)}
 .form__foot{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-top:6px}
 .form__note{color:var(--ink-dim);font-size:12.5px;max-width:44ch;margin:0}
@@ -204,6 +206,12 @@ footer a:hover{color:var(--accent)}
   .form{grid-template-columns:1fr}
   .form__foot .btn{flex:1 1 100%}
   footer{flex-direction:column}
+}
+@media (pointer:coarse){
+  .back,.mark{display:inline-block;padding-block:10px;min-height:44px}
+  .cta{padding-block:12px}
+  footer a{display:inline-block;padding-block:10px;min-height:44px}
+  .filters button{padding:12px 16px}
 }
 @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms !important;transition-duration:.01ms !important}html{scroll-behavior:auto}}
 </style>
@@ -300,16 +308,17 @@ footer a:hover{color:var(--accent)}
     <h2 class="display">Run this on your product.</h2>
     <p class="lede">Tell us about your next launch. We'll come back with a production audit and a sample set built on your actual product.</p>
     <div class="form">
-      <div class="field"><label for="f-name">Name</label><input id="f-name" type="text" autocomplete="name"></div>
-      <div class="field"><label for="f-co">Company</label><input id="f-co" type="text" autocomplete="organization"></div>
-      <div class="field"><label for="f-web">Website</label><input id="f-web" type="url" placeholder="https://" autocomplete="url"></div>
+      <div class="field"><label for="f-name">Name <i class="req" aria-hidden="true">*</i></label><input id="f-name" name="name" type="text" autocomplete="name" required aria-required="true"></div>
+      <div class="field"><label for="f-co">Company <i class="req" aria-hidden="true">*</i></label><input id="f-co" name="company" type="text" autocomplete="organization" required aria-required="true"></div>
+      <div class="field"><label for="f-web">Website <i class="req" aria-hidden="true">*</i></label><input id="f-web" name="website" type="text" inputmode="url" placeholder="yourbrand.com" autocomplete="url" required aria-required="true"></div>
+      <div class="field"><label for="f-email">Email <i class="req" aria-hidden="true">*</i></label><input id="f-email" name="email" type="email" autocomplete="email" required aria-required="true"></div>
       <div class="field"><label for="f-cat">Product category</label>
         <select id="f-cat"><option>Audio &amp; wearables</option><option>Consumer electronics</option><option>Mobile / devices</option><option>Beauty &amp; personal care</option><option>Fashion &amp; accessories</option><option>Home &amp; appliances</option><option>Other</option></select></div>
       <div class="field field--wide"><label for="f-launch">Upcoming launch</label><input id="f-launch" type="text" placeholder="What's shipping, and when"></div>
       <div class="field field--wide"><label for="f-chal">Current production challenge</label><textarea id="f-chal" placeholder="Where production is slowing you down today"></textarea></div>
       <div class="form__foot">
         <button class="btn btn--fill" id="submit" type="button"><span>Book a Production Audit</span><span>→</span></button>
-        <p class="form__note">Opens a pre-filled email to nodradesign@gmail.com, tagged as coming from the demo.</p>
+        <p class="form__note" id="formNote" role="status" aria-live="polite">Opens a pre-filled email to nodradesign@gmail.com, tagged as coming from the demo.</p>
       </div>
     </div>
   </section>
@@ -469,9 +478,34 @@ footer a:hover{color:var(--accent)}
   /* ================= audit form ================= */
   document.getElementById('submit').addEventListener('click',function(){
     function v(id){var e=document.getElementById(id);return e?e.value.trim():'';}
-    var body=['Source: Interactive demo','','Name: '+v('f-name'),'Company: '+v('f-co'),'Website: '+v('f-web'),'Product category: '+v('f-cat'),
+    var note=document.getElementById('formNote');
+    function say(m){ if(note) note.textContent=m; }
+
+    /* Name, company, email and website are all compulsory. */
+    var EMAIL=/^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+    var SITE=/^(https?:\/\/)?([a-z0-9](-?[a-z0-9])*\.)+[a-z]{2,}(\/[^\s]*)?$/i;
+    var need=[['f-name','your name'],['f-co','your company'],['f-email','your email'],['f-web','your website']];
+    var missing=null;
+    need.forEach(function(r){
+      var el=document.getElementById(r[0]); if(!el) return;
+      var val=el.value.trim(), bad=!val;
+      if(!bad && r[0]==='f-email') bad=!EMAIL.test(val);
+      if(!bad && r[0]==='f-web')   bad=!SITE.test(val);
+      el.classList.toggle('err',bad);
+      if(bad && !missing) missing=r[1];
+    });
+    if(missing){
+      say('Please add '+missing+' so we can reply.');
+      var firstBad=document.querySelector('.field .err'); if(firstBad) firstBad.focus();
+      return;
+    }
+    var web=v('f-web'); if(!/^https?:\/\//i.test(web)) web='https://'+web;
+
+    var body=['Source: Interactive demo','','Name: '+v('f-name'),'Company: '+v('f-co'),'Email: '+v('f-email'),
+      'Website: '+web,'Product category: '+v('f-cat'),
       'Upcoming launch: '+v('f-launch'),'','Current production challenge:',v('f-chal')].join('\n');
-    location.href='mailto:nodradesign@gmail.com?subject='+encodeURIComponent('Production Audit request (from demo) — '+(v('f-co')||v('f-name')||'New enquiry'))+'&body='+encodeURIComponent(body);
+    say('Opening your email app\u2026');
+    location.href='mailto:nodradesign@gmail.com?subject='+encodeURIComponent('Production Audit request (from demo) \u2014 '+(v('f-co')||v('f-name')||'New enquiry'))+'&body='+encodeURIComponent(body);
   });
 })();
 </script>
