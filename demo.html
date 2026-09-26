@@ -87,7 +87,8 @@ h2.sec{margin:0;font-size:clamp(28px,4.6vw,64px)}
 .run__grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(14px,2vw,24px);margin-top:44px}
 .card{border:1px solid var(--hair);background:var(--raise);padding:clamp(18px,2.2vw,30px)}
 .card__label{color:var(--ink-dim);display:flex;justify-content:space-between;gap:10px}
-.input__art{aspect-ratio:1/1;margin:18px 0;border:1px solid var(--hair);overflow:hidden}
+.input__art{aspect-ratio:1/1;margin:18px 0;border:1px solid var(--hair);overflow:hidden;background:var(--sunk)}
+.input__art img{width:100%;height:100%;object-fit:cover;display:block}
 .specs{display:grid;grid-template-columns:auto 1fr;gap:10px 18px;margin:0;font-size:14px}
 .specs dt{color:var(--ink-dim)}.specs dd{margin:0}
 .sw{display:inline-flex;gap:6px;vertical-align:middle}
@@ -124,7 +125,9 @@ h2.sec{margin:0;font-size:clamp(28px,4.6vw,64px)}
 .tile{break-inside:avoid;margin:0 0 14px;border:1px solid var(--hair);background:var(--raise);transition:opacity .6s var(--ease),transform .6s var(--ease),filter .6s var(--ease),border-color .3s}
 .tile:hover{border-color:var(--accent)}
 .tile[hidden]{display:none}
-.tile__art{overflow:hidden}
+.tile__art{overflow:hidden;background:var(--sunk)}
+.tile__art img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 1s var(--ease)}
+.tile:hover .tile__art img{transform:scale(1.04)}
 .tile figcaption{padding:11px 13px 13px;display:flex;flex-direction:column;gap:3px}
 .tile .ch{color:var(--accent);font-size:10px}
 .tile b{font-weight:500;font-size:14.5px}
@@ -140,6 +143,7 @@ h2.sec{margin:0;font-size:clamp(28px,4.6vw,64px)}
 .insp{display:grid;grid-template-columns:1.35fr .65fr;gap:clamp(14px,2vw,24px);margin-top:40px;align-items:start}
 .compare{position:relative;aspect-ratio:16/10;border:1px solid var(--hair);overflow:hidden;user-select:none;touch-action:pan-y}
 .layer{position:absolute;inset:0}
+.layer img{width:100%;height:100%;object-fit:cover;display:block}
 .layer.gen{clip-path:inset(0 0 0 50%)}
 .handle{position:absolute;top:0;bottom:0;left:50%;width:2px;margin-left:-1px;background:#fff;pointer-events:none;box-shadow:0 0 0 1px rgba(0,0,0,.15)}
 .handle span{position:absolute;top:50%;left:50%;width:42px;height:42px;margin:-21px 0 0 -21px;border-radius:50%;background:#fff;box-shadow:0 4px 18px rgba(0,0,0,.3)}
@@ -218,9 +222,9 @@ footer a:hover{color:var(--accent)}
 <main>
   <section class="wrap intro">
     <div class="eyebrow mono">Interactive demo</div>
-    <h1>One pair of earbuds. <em>A complete</em> asset library.</h1>
-    <p class="lede">Run the pipeline and watch a single product reference become every asset a launch needs — across marketplaces, D2C, paid social and video.</p>
-    <span class="note mono">Illustrative demo · stand-in visuals · real channel formats</span>
+    <h1>One photograph. <em>A complete</em> asset library.</h1>
+    <p class="lede">One reference photograph of a pair of earbuds, run through the pipeline and adapted into every format a launch needs — marketplaces, D2C, paid social and video. Same product in every frame.</p>
+    <span class="note mono">Unbranded sample product · real generated assets · real channel formats</span>
   </section>
 
   <!-- RUN -->
@@ -231,7 +235,7 @@ footer a:hover{color:var(--accent)}
         <div class="input__art" id="inputArt"></div>
         <dl class="specs">
           <dt>Product</dt><dd>TWS earbuds + charging case</dd>
-          <dt>Colourways</dt><dd><span class="sw"><i style="background:#2B2B2F"></i><i style="background:#E6E0D4"></i><i style="background:#FF4A21"></i><i style="background:#9DB09F"></i></span></dd>
+          <dt>Colourways</dt><dd><span class="sw"><i style="background:#1D1D1F"></i><i style="background:#EDE9E1"></i><i style="background:#94A894"></i><i style="background:#D9C3A3"></i></span></dd>
           <dt>Channels</dt><dd>Amazon · Flipkart · Shopify · Social · Video</dd>
           <dt>Brand rules</dt><dd>Loaded</dd>
         </dl>
@@ -272,7 +276,7 @@ footer a:hover{color:var(--accent)}
   <section class="wrap pad" id="fidelity">
     <div class="eyebrow mono">Fidelity inspector</div>
     <h2 class="sec display">Same product. Every asset.</h2>
-    <p class="lede">Drag across the frame to compare the reference with a generated lifestyle asset. The scene changes — the product doesn't.</p>
+    <p class="lede">Left is the reference photograph. Right is a marketplace scene the pipeline built from it. Drag across — the background, lighting and staging change, the product does not.</p>
     <div class="insp">
       <div class="compare rv" id="compare">
         <div class="layer" id="refLayer"></div>
@@ -327,136 +331,49 @@ footer a:hover{color:var(--accent)}
   }
   var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ================= product + scene drawing ================= */
-  var COL={
-    graphite:{body:'#2B2B2F',hi:'#6A6A72',mesh:'#121214',name:'Graphite'},
-    bone:{body:'#E6E0D4',hi:'#FFFFFF',mesh:'#8E877A',name:'Bone'},
-    ember:{body:'#FF4A21',hi:'#FFB199',mesh:'#7A1E08',name:'Ember'},
-    sage:{body:'#9DB09F',hi:'#DDE7DE',mesh:'#46564A',name:'Sage'}
-  };
-  var TINT={graphite:['#1B1B1F','#35353C',1],bone:['#F1ECE2','#D9CFBE',0],ember:['#2A0E07','#6A2310',1],sage:['#E7EDE6','#BFCDBF',0]};
-  var uid=0;
-  function defs(id,g1,g2){
-    return '<defs><linearGradient id="sh'+id+'" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".34"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".3"/></linearGradient>'+
-      '<linearGradient id="bg'+id+'" x1="0" y1="0" x2=".6" y2="1"><stop offset="0" stop-color="'+g1+'"/><stop offset="1" stop-color="'+g2+'"/></linearGradient>'+
-      '<filter id="bl'+id+'" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="12"/></filter></defs>';
-  }
-  function body(tag,attrs,c,id){
-    return '<'+tag+' '+attrs+' fill="'+c.body+'" stroke="#000" stroke-opacity=".12"/><'+tag+' '+attrs+' fill="url(#sh'+id+')"/>';
-  }
-  function bud(c,x,y,id){
-    return '<g transform="translate('+x+','+y+')">'+
-      body('rect','x="-7" y="-4" width="14" height="54" rx="7"',c,id)+
-      body('ellipse','cx="0" cy="-14" rx="20" ry="18"',c,id)+
-      '<ellipse cx="-4" cy="-17" rx="8" ry="7" fill="'+c.mesh+'" opacity=".78"/>'+
-      '<circle cx="0" cy="45" r="2.3" fill="'+c.hi+'" opacity=".85"/></g>';
-  }
-  /* local coords: visual centre ≈ (-9,0), width ≈ 242, height ≈ 104 */
-  function product(c,x,y,s,id){
-    return '<g transform="translate('+x+','+y+') scale('+s+')">'+
-      body('rect','x="-130" y="-48" width="130" height="96" rx="44"',c,id)+
-      '<path d="M-126 -6 H-4" stroke="'+c.mesh+'" stroke-opacity=".5" stroke-width="1.5"/>'+
-      '<circle cx="-65" cy="-24" r="6" fill="none" stroke="'+c.mesh+'" stroke-opacity=".6" stroke-width="1.6"/>'+
-      '<circle cx="-65" cy="22" r="3" fill="'+c.hi+'"/>'+
-      bud(c,40,-6,id)+bud(c,92,6,id)+'</g>';
-  }
-  function P(c,x,y,s,id,op){ /* x,y = visual centre */
-    return '<ellipse cx="'+x+'" cy="'+(y+64*s)+'" rx="'+(128*s)+'" ry="'+(12*s)+'" fill="#000" opacity="'+op+'" filter="url(#bl'+id+')"/>'+product(c,x+9*s,y,s,id);
-  }
-  function bars(x,y,w,dark,cta){
-    var a=dark?'#F2F1ED':'#0B0B0C';
-    var s='<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+(w*.1)+'" rx="'+(w*.015)+'" fill="'+a+'" opacity=".9"/>'+
-          '<rect x="'+x+'" y="'+(y+w*.15)+'" width="'+(w*.68)+'" height="'+(w*.045)+'" rx="'+(w*.015)+'" fill="'+a+'" opacity=".38"/>';
-    if(cta) s+='<rect x="'+x+'" y="'+(y+w*.27)+'" width="'+(w*.36)+'" height="'+(w*.1)+'" rx="'+(w*.05)+'" fill="#FF4A21"/>';
-    return s;
-  }
-  function play(cx,cy,r){
-    return '<circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="#000" fill-opacity=".45" stroke="#fff" stroke-opacity=".7" stroke-width="2"/>'+
-      '<path d="M'+(cx-r*.3)+' '+(cy-r*.42)+' L'+(cx+r*.46)+' '+cy+' L'+(cx-r*.3)+' '+(cy+r*.42)+' Z" fill="#fff"/>';
-  }
-  function scene(t){
-    var id=++uid, W=1000, H=Math.round(W*t.r[1]/t.r[0]), m=Math.min(W,H);
-    var c=COL[t.c], tn=TINT[t.c], dark=!!tn[2], g='', bg='<rect width="'+W+'" height="'+H+'" fill="url(#bg'+id+')"/>';
-    switch(t.sc){
-      case 'pdp':
-        g='<rect width="'+W+'" height="'+H+'" fill="'+t.bg+'"/>'+P(c,W/2,H/2,m/400*1.05,id,.2); break;
-      case 'life':
-        var disc=t.c==='ember'?'#F2F1ED':'#FF4A21';
-        g=bg+'<circle cx="'+(W*.6)+'" cy="'+(H*.42)+'" r="'+(m*.31)+'" fill="'+disc+'" opacity="'+(t.c==='ember'?.14:.9)+'"/>'+
-          '<rect y="'+(H*.68)+'" width="'+W+'" height="'+(H*.32)+'" fill="#000" opacity="'+(dark?.25:.07)+'"/>'+
-          P(c,W/2,H*.54,m/400*.95,id,dark?.6:.28); break;
-      case 'macro':
-        var S=m/400*3.4;
-        g=bg+'<circle cx="'+(W*.5)+'" cy="'+(H*.46)+'" r="'+(m*.42)+'" fill="#FF4A21" opacity=".16"/>'+
-          product(c,W*.52-40*S,H*.47+20*S,S,id)+
-          '<rect x="'+(W*.07)+'" y="'+(H*.86)+'" width="'+(W*.26)+'" height="'+(H*.025)+'" rx="4" fill="#F2F1ED" opacity=".55"/>'; break;
-      case 'banner':
-        g=bg+bars(W*.07,H*.28,W*.36,dark,true)+P(c,W*.7,H*.52,H/400*1.2,id,dark?.6:.25); break;
-      case 'aplus':
-        g='<rect width="'+W+'" height="'+H+'" fill="#0E0E10"/><circle cx="'+(W*.64)+'" cy="'+(H*.5)+'" r="'+(H*.42)+'" fill="#FF4A21" opacity=".14"/>'+
-          P(c,W*.64,H*.5,H/400*1.1,id,.6);
-        for(var k=0;k<3;k++){var yy=H*(.3+k*.2);
-          g+='<rect x="'+(W*.07)+'" y="'+(yy-H*.018)+'" width="'+(W*.17)+'" height="'+(H*.036)+'" rx="3" fill="#F2F1ED" opacity=".75"/>'+
-             '<path d="M'+(W*.27)+' '+yy+' H'+(W*.44)+'" stroke="#F2F1ED" stroke-opacity=".35" stroke-dasharray="4 5"/>'+
-             '<circle cx="'+(W*.45)+'" cy="'+yy+'" r="5" fill="#FF4A21"/>';}
-        break;
-      case 'social':
-        g=bg+bars(W*.1,H*.09,W*.6,dark,false)+P(c,W/2,H*.6,W/400*1.02,id,dark?.6:.25)+
-          '<rect x="'+(W*.1)+'" y="'+(H*.86)+'" width="'+(W*.32)+'" height="'+(H*.06)+'" rx="'+(H*.03)+'" fill="#FF4A21"/>'; break;
-      case 'story':
-        g=bg+P(c,W/2,H*.44,W/400*1.28,id,dark?.6:.25)+bars(W*.1,H*.68,W*.72,dark,true);
-        for(var q=0;q<3;q++) g+='<rect x="'+(W*.06+q*W*.3)+'" y="'+(H*.03)+'" width="'+(W*.28)+'" height="5" rx="2.5" fill="'+(dark?'#F2F1ED':'#0B0B0C')+'" opacity="'+(q===0?.9:.3)+'"/>';
-        if(t.play) g+=play(W/2,H*.44,W*.1); break;
-      case 'video':
-        g=bg+'<rect width="'+W+'" height="'+H+'" fill="#000" opacity=".45"/>'+P(c,W*.55,H*.5,H/400*1.1,id,.6)+play(W*.5,H*.5,H*.1)+
-          '<rect x="'+(W*.06)+'" y="'+(H*.9)+'" width="'+(W*.88)+'" height="4" rx="2" fill="#fff" opacity=".25"/>'+
-          '<rect x="'+(W*.06)+'" y="'+(H*.9)+'" width="'+(W*.3)+'" height="4" rx="2" fill="#FF4A21"/>'; break;
-      case 'lineup':
-        g='<rect width="'+W+'" height="'+H+'" fill="#F4F3EF"/>';
-        ['graphite','bone','ember','sage'].forEach(function(k,i){ g+=P(COL[k],W*(.14+.24*i),H*.5,H/400*.6,id,.2); });
-        break;
-    }
-    return '<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet" aria-hidden="true">'+defs(id,tn[0],tn[1])+g+'</svg>';
-  }
-
-  /* ================= data ================= */
+  /* ================= real production set =================
+     One reference photo, generated through the pipeline, then cropped
+     and resized into each channel's own format. Same product throughout. */
   var CH={amazon:'Amazon',flipkart:'Flipkart',shopify:'D2C / Shopify',social:'Paid social',video:'Video'};
   var T=[
-    {ch:'amazon',f:'Main image',r:[1,1],sz:'2000 × 2000',sc:'pdp',c:'graphite',bg:'#FFFFFF'},
-    {ch:'social',f:'Story ad',r:[9,16],sz:'1080 × 1920',sc:'story',c:'ember'},
-    {ch:'shopify',f:'Macro detail',r:[1,1],sz:'2048 × 2048',sc:'macro',c:'graphite'},
-    {ch:'amazon',f:'A+ module',r:[970,600],sz:'970 × 600',sc:'aplus',c:'graphite'},
-    {ch:'flipkart',f:'Lifestyle',r:[4,5],sz:'4 : 5',sc:'life',c:'graphite'},
-    {ch:'amazon',f:'Main image',r:[1,1],sz:'2000 × 2000',sc:'pdp',c:'bone',bg:'#FFFFFF'},
-    {ch:'video',f:'Hero film',r:[16,9],sz:'1920 × 1080',sc:'video',c:'graphite'},
-    {ch:'social',f:'Feed ad',r:[4,5],sz:'1080 × 1350',sc:'social',c:'sage'},
-    {ch:'shopify',f:'Colourway lineup',r:[16,9],sz:'2048 × 1152',sc:'lineup',c:'graphite'},
-    {ch:'amazon',f:'Main image',r:[1,1],sz:'2000 × 2000',sc:'pdp',c:'ember',bg:'#FFFFFF'},
-    {ch:'flipkart',f:'Offer banner',r:[16,9],sz:'Wide slot',sc:'banner',c:'ember'},
-    {ch:'video',f:'Reel',r:[9,16],sz:'1080 × 1920',sc:'story',c:'bone',play:true},
-    {ch:'amazon',f:'Lifestyle',r:[1,1],sz:'2000 × 2000',sc:'life',c:'bone'},
-    {ch:'shopify',f:'Product image',r:[1,1],sz:'2048 × 2048',sc:'pdp',c:'ember',bg:'#F4F3EF'},
-    {ch:'social',f:'Feed ad',r:[4,5],sz:'1080 × 1350',sc:'social',c:'graphite'},
-    {ch:'flipkart',f:'Gallery image',r:[1,1],sz:'1 : 1',sc:'pdp',c:'sage',bg:'#F4F3EF'},
-    {ch:'amazon',f:'Main image',r:[1,1],sz:'2000 × 2000',sc:'pdp',c:'sage',bg:'#FFFFFF'},
-    {ch:'video',f:'6s bumper',r:[16,9],sz:'1920 × 1080',sc:'video',c:'sage'},
-    {ch:'social',f:'Square ad',r:[1,1],sz:'1080 × 1080',sc:'life',c:'ember'},
-    {ch:'shopify',f:'Product image',r:[1,1],sz:'2048 × 2048',sc:'pdp',c:'bone',bg:'#EDEBE5'},
-    {ch:'flipkart',f:'Gallery image',r:[1,1],sz:'1 : 1',sc:'pdp',c:'graphite',bg:'#F4F3EF'}
+    {ch:'amazon',  f:'Main image',      sz:'2000 \u00d7 2000', r:[1,1],    img:'am-main'},
+    {ch:'social',  f:'Story ad',        sz:'1080 \u00d7 1920', r:[9,16],   img:'so-story'},
+    {ch:'shopify', f:'Colourway hero',  sz:'2048 \u00d7 1152', r:[16,9],   img:'d2c-hero'},
+    {ch:'amazon',  f:'Lifestyle',       sz:'2000 \u00d7 2000', r:[1,1],    img:'am-life'},
+    {ch:'flipkart',f:'Gallery image',   sz:'1 : 1',         r:[1,1],    img:'fk-gallery'},
+    {ch:'video',   f:'Hero frame',      sz:'1920 \u00d7 1080', r:[16,9],   img:'vid-hero'},
+    {ch:'social',  f:'Feed ad',         sz:'1080 \u00d7 1350', r:[4,5],    img:'so-feed'},
+    {ch:'shopify', f:'Macro detail',    sz:'2048 \u00d7 2048', r:[1,1],    img:'d2c-macro'},
+    {ch:'amazon',  f:'A+ module',       sz:'970 \u00d7 600',   r:[970,600],img:'am-aplus'},
+    {ch:'flipkart',f:'Lifestyle',       sz:'4 : 5',         r:[4,5],    img:'fk-life'},
+    {ch:'video',   f:'Reel cover',      sz:'1080 \u00d7 1920', r:[9,16],   img:'vid-cover'},
+    {ch:'shopify', f:'Lifestyle',       sz:'2048 \u00d7 1536', r:[4,3],    img:'d2c-life'},
+    {ch:'social',  f:'Square ad',       sz:'1080 \u00d7 1080', r:[1,1],    img:'so-square'},
+    {ch:'flipkart',f:'Offer banner',    sz:'Wide slot',     r:[16,9],   img:'fk-banner'},
+    {ch:'amazon',  f:'Detail shot',     sz:'2000 \u00d7 2000', r:[1,1],    img:'am-detail'},
+    {ch:'social',  f:'Lifestyle ad',    sz:'1080 \u00d7 1350', r:[4,5],    img:'so-life'},
+    {ch:'shopify', f:'Product image',   sz:'2048 \u00d7 2048', r:[1,1],    img:'d2c-square'},
+    {ch:'flipkart',f:'Colourway strip', sz:'16 : 9',        r:[16,9],   img:'fk-ways'},
+    {ch:'video',   f:'Colourway cut',   sz:'1920 \u00d7 1080', r:[16,9],   img:'vid-ways'}
   ];
   var N=T.length, CHN=Object.keys(CH).length;
 
   /* ================= render input + library ================= */
-  document.getElementById('inputArt').innerHTML=scene({r:[1,1],sc:'pdp',c:'graphite',bg:'#F4F3EF'});
+  document.getElementById('inputArt').innerHTML =
+    '<img src="demo-img/reference.jpg" alt="Reference photograph of the unbranded TWS earbuds and charging case" width="700" height="700">';
+
   var grid=document.getElementById('grid');
   grid.innerHTML=T.map(function(t,i){
-    return '<figure class="tile" data-ch="'+t.ch+'" style="transition-delay:'+(i*45)+'ms">'+
-      '<div class="tile__art" style="aspect-ratio:'+t.r[0]+'/'+t.r[1]+'">'+scene(t)+'</div>'+
-      '<figcaption><span class="ch mono">'+CH[t.ch]+'</span><b>'+t.f+'</b><span class="sz mono">'+t.sz+' · '+COL[t.c].name+'</span></figcaption></figure>';
+    return '<figure class="tile" data-ch="'+t.ch+'" style="transition-delay:'+(i*40)+'ms">'+
+      '<div class="tile__art" style="aspect-ratio:'+t.r[0]+'/'+t.r[1]+'">'+
+        '<img src="demo-img/'+t.img+'.jpg" alt="'+t.f+' for '+CH[t.ch]+'" loading="lazy">'+
+      '</div>'+
+      '<figcaption><span class="ch mono">'+CH[t.ch]+'</span><b>'+t.f+'</b>'+
+      '<span class="sz mono">'+t.sz+'</span></figcaption></figure>';
   }).join('');
 
   var fil=document.getElementById('filters');
-  var counts={all:N}; T.forEach(function(t){counts[t.ch]=(counts[t.ch]||0)+1;});
+  var counts={}; T.forEach(function(t){counts[t.ch]=(counts[t.ch]||0)+1;});
   fil.innerHTML='<button class="on" data-f="all" role="tab" aria-selected="true">All<sup>'+N+'</sup></button>'+
     Object.keys(CH).map(function(k){return '<button data-f="'+k+'" role="tab" aria-selected="false">'+CH[k]+'<sup>'+counts[k]+'</sup></button>';}).join('');
   fil.addEventListener('click',function(e){
@@ -467,32 +384,19 @@ footer a:hover{color:var(--accent)}
   });
 
   /* ================= inspector ================= */
+  document.getElementById('refLayer').innerHTML =
+    '<img src="demo-img/insp-ref.jpg" alt="The reference photograph of the product" width="1400" height="875">';
+  document.getElementById('genLayer').innerHTML =
+    '<img src="demo-img/insp-gen.jpg" alt="A generated marketplace banner scene built from the same reference" width="1400" height="875">';
   (function(){
-    var W=1000,H=625, s=H/400*1.3, g=COL.graphite;
-    var a=++uid, b=++uid;
-    var ref='<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid slice" aria-hidden="true">'+defs(a,'#DAD8D2','#CFCCC5')+
-      '<rect width="'+W+'" height="'+H+'" fill="url(#bg'+a+')"/>'+
-      '<g stroke="#0B0B0C" stroke-opacity=".08">'+[1,2,3,4,5,6,7,8,9].map(function(i){return '<path d="M'+(i*100)+' 0V'+H+'"/>';}).join('')+
-        [1,2,3,4,5].map(function(i){return '<path d="M0 '+(i*104)+'H'+W+'"/>';}).join('')+'</g>'+
-      P(g,W/2,H/2,s,a,.18)+
-      '<g stroke="#0B0B0C" stroke-opacity=".5" stroke-width="1.5"><path d="M'+(W/2-121*s)+' '+(H/2+86*s)+'H'+(W/2+121*s)+'"/>'+
-        '<path d="M'+(W/2-121*s)+' '+(H/2+80*s)+'v12M'+(W/2+121*s)+' '+(H/2+80*s)+'v12"/></g>'+
-      '<g stroke="#FF4A21" stroke-width="2" fill="none"><path d="M40 70V40h30M'+(W-40)+' 70V40h-30M40 '+(H-70)+'v30h30M'+(W-40)+' '+(H-70)+'v30h-30"/></g></svg>';
-    var gen='<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid slice" aria-hidden="true">'+defs(b,'#EFE8DC','#D6C9B4')+
-      '<rect width="'+W+'" height="'+H+'" fill="url(#bg'+b+')"/>'+
-      '<circle cx="'+(W*.63)+'" cy="'+(H*.4)+'" r="'+(H*.38)+'" fill="#FF4A21"/>'+
-      '<rect y="'+(H/2+56*s)+'" width="'+W+'" height="'+H+'" fill="#000" opacity=".08"/>'+
-      P(g,W/2,H/2,s,b,.32)+'</svg>';
-    document.getElementById('refLayer').innerHTML=ref;
-    document.getElementById('genLayer').innerHTML=gen;
     var sl=document.getElementById('slider'),gl=document.getElementById('genLayer'),hd=document.getElementById('handle');
     function upd(){ var v=sl.value; gl.style.clipPath='inset(0 0 0 '+v+'%)'; hd.style.left=v+'%'; }
     sl.addEventListener('input',upd); upd();
   })();
 
   var CHECKS=[
-    ['Geometry','Case and bud form held to reference'],
-    ['Materials','Gloss case, matte stem, mesh grille'],
+    ['Geometry','Pebble case profile and stem form held'],
+    ['Materials','Soft-touch matte, mesh grille weave'],
     ['Colours','All 4 colourways matched to swatch'],
     ['Logos','Mark placement and clear space'],
     ['Physical details','Charging contacts, LED, lid seam'],
@@ -504,10 +408,10 @@ footer a:hover{color:var(--accent)}
 
   /* ================= pipeline run ================= */
   var STAGES=[
-    ['Product',700,'Reference ingested · 1 product · 4 colourways'],
+    ['Product',700,'Reference photograph ingested · 1 product · 4 colourways'],
     ['Brand + product intelligence',900,'Brand rules loaded · colour tokens · logo clear-space'],
     ['Creative direction',900,'Shot list locked · '+CHN+' channels'],
-    ['AI production',1500,'Master assets generated'],
+    ['AI production',1500,'6 master scenes generated from the reference'],
     ['Automated adaptation',1000,'Adapted to '+N+' channel formats'],
     ['Fidelity & brand QA',1200,CHECKS.length+' / '+CHECKS.length+' checks passed'],
     ['Production-ready delivery',700,N+' assets packaged · named per channel']

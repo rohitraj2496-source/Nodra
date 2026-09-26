@@ -887,6 +887,9 @@ footer{border-top:1px solid var(--hair);padding-block:44px 34px}
       var d=function(){return track.scrollWidth-innerWidth;};
       var hz=gsap.to(track,{x:function(){return -d();},ease:'none',
         scrollTrigger:{trigger:pin,start:'top top',end:function(){return '+='+d();},pin:true,scrub:1,invalidateOnRefresh:true,anticipatePin:1}});
+      gsap.fromTo(track.querySelectorAll('.tile'),{y:26,autoAlpha:0},
+        {y:0,autoAlpha:1,duration:.6,ease:'expo.out',stagger:.06,
+         scrollTrigger:{trigger:pin,start:'top 85%',once:true}});
       gsap.utils.toArray('[data-par]').forEach(function(f){
         gsap.fromTo(f,{xPercent:-6},{xPercent:6,ease:'none',
           scrollTrigger:{trigger:f.closest('.tile'),containerAnimation:hz,start:'left right',end:'right left',scrub:true}});
@@ -901,7 +904,7 @@ footer{border-top:1px solid var(--hair);padding-block:44px 34px}
         steps.forEach(function(el,i){ el.classList.toggle('on',i<cut); }); }});
 
     /* generic reveals */
-    gsap.utils.toArray('.fan-m__src, .fan-m__out li, .sec, .lede, .pain > div, .tile, .cs, .pill > div, .vs > div, .reveal, .chips, .form, .foot__top').forEach(function(el){
+    gsap.utils.toArray('.fan-m__src, .fan-m__out li, .sec, .lede, .pain > div, .cs, .pill > div, .vs > div, .reveal, .chips, .form, .foot__top').forEach(function(el){
       gsap.fromTo(el,{y:38,autoAlpha:0},{y:0,autoAlpha:1,duration:.9,ease:'expo.out',
         scrollTrigger:{trigger:el,start:'top 90%',once:true}});
     });
