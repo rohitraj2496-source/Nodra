@@ -231,6 +231,7 @@ footer a:hover{color:var(--accent)}
 
   gtag('config', 'G-2Y7JLJ49LZ');
 </script>
+<script src="track.js" defer></script>
 </head>
 <body>
 <div class="grain" aria-hidden="true"></div>
@@ -334,7 +335,7 @@ footer a:hover{color:var(--accent)}
       <div class="field field--wide"><label for="f-chal">Current production challenge</label><textarea id="f-chal" placeholder="Where production is slowing you down today"></textarea></div>
       <div class="form__foot">
         <button class="btn btn--fill" id="submit" type="button"><span>Book a Production Audit</span><span>→</span></button>
-        <p class="form__note" id="formNote" role="status" aria-live="polite">Opens a pre-filled email to nodradesign@gmail.com, tagged as coming from the demo.</p>
+        <p class="form__note" id="formNote" role="status" aria-live="polite">We reply within one working day.</p>
       </div>
     </div>
   </section>
@@ -511,17 +512,38 @@ footer a:hover{color:var(--accent)}
       if(bad && !missing) missing=r[1];
     });
     if(missing){
+      if(window.nodraTrack) nodraTrack.formError('demo', missing);
       say('Please add '+missing+' so we can reply.');
       var firstBad=document.querySelector('.field .err'); if(firstBad) firstBad.focus();
       return;
     }
     var web=v('f-web'); if(!/^https?:\/\//i.test(web)) web='https://'+web;
 
-    var body=['Source: Interactive demo','','Name: '+v('f-name'),'Company: '+v('f-co'),'Email: '+v('f-email'),
-      'Website: '+web,'Product category: '+v('f-cat'),
-      'Upcoming launch: '+v('f-launch'),'','Current production challenge:',v('f-chal')].join('\n');
-    say('Opening your email app\u2026');
-    location.href='mailto:nodradesign@gmail.com?subject='+encodeURIComponent('Production Audit request (from demo) \u2014 '+(v('f-co')||v('f-name')||'New enquiry'))+'&body='+encodeURIComponent(body);
+    var data={name:v('f-name'),company:v('f-co'),email:v('f-email'),website:web,
+              category:v('f-cat'),launch:v('f-launch'),challenge:v('f-chal'),
+              source:'nodra.design — interactive demo'};
+    data._subject='Production audit request (from demo) \u2014 '+(data.company||data.name||'New enquiry');
+    if(window.nodraTrack) Object.assign(data, nodraTrack.attribution());
+
+    function mailFallback(){
+      var body=['Source: Interactive demo','','Name: '+data.name,'Company: '+data.company,'Email: '+data.email,
+        'Website: '+web,'Product category: '+data.category,
+        'Upcoming launch: '+data.launch,'','Current production challenge:',data.challenge].join('\n');
+      say('Could not send from here \u2014 opening your email app instead\u2026');
+      location.href='mailto:nodradesign@gmail.com?subject='+encodeURIComponent(data._subject)+'&body='+encodeURIComponent(body);
+    }
+    var btnEl=document.getElementById('submit'); if(btnEl) btnEl.disabled=true;
+    say('Sending\u2026');
+    fetch('https://formspree.io/f/meaoldbv',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(data)})
+      .then(function(r){
+        if(btnEl) btnEl.disabled=false;
+        if(r.ok){
+          if(window.nodraTrack) nodraTrack.lead('demo', data);
+          ['f-name','f-co','f-web','f-email','f-launch','f-chal'].forEach(function(id){var e=document.getElementById(id); if(e) e.value='';});
+          say('\u2713 Request received. We reply within one working day.');
+        } else { mailFallback(); }
+      })
+      .catch(function(){ if(btnEl) btnEl.disabled=false; mailFallback(); });
   });
 })();
 </script>

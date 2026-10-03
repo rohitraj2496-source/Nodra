@@ -457,6 +457,7 @@ footer{border-top:1px solid var(--hair);padding-block:44px 34px}
 
   gtag('config', 'G-2Y7JLJ49LZ');
 </script>
+<script src="track.js" defer></script>
 </head>
 <body>
 
@@ -1033,6 +1034,7 @@ footer{border-top:1px solid var(--hair);padding-block:44px 34px}
       if(bad && !missing) missing=r[1];
     });
     if(missing){
+      if(window.nodraTrack) nodraTrack.formError('homepage', missing);
       say('Please add '+missing+' so we can reply.',false);
       var firstBad=form.querySelector('.err'); if(firstBad) firstBad.focus();
       return;
@@ -1045,6 +1047,7 @@ footer{border-top:1px solid var(--hair);padding-block:44px 34px}
               category:val('f-cat'),launch:val('f-launch'),challenge:val('f-chal'),
               source:'nodra.design — production audit'};
     data._subject = 'Production audit request — ' + (data.company || data.name || 'New enquiry');
+    if(window.nodraTrack) Object.assign(data, nodraTrack.attribution());
 
     if(!FORM_ENDPOINT){
       var body=['Name: '+data.name,'Company: '+data.company,'Email: '+data.email,'Website: '+data.website,
@@ -1057,7 +1060,7 @@ footer{border-top:1px solid var(--hair);padding-block:44px 34px}
     say('Sending…',false);
     fetch(FORM_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(data)})
       .then(function(r){
-        if(r.ok){ form.reset(); showSent(); }
+        if(r.ok){ if(window.nodraTrack) nodraTrack.lead('homepage', data); form.reset(); showSent(); }
         else { r.json().then(function(j){
                  var m=(j&&j.errors&&j.errors[0]&&j.errors[0].message)||'that request was rejected';
                  say('Could not send ('+m+'). Email '+CONTACT_EMAIL+' and we\u2019ll pick it up.',false);
