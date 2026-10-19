@@ -440,6 +440,33 @@ footer{border-top:1px solid var(--hair);padding-block:44px 34px}
   .filters button{padding:12px 16px}
 }
 @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms !important;transition-duration:.01ms !important}}
+/* WhatsApp contact card */
+.wa-card{position:relative;z-index:2;display:flex;align-items:center;gap:clamp(16px,3vw,32px);margin-top:28px;padding:clamp(20px,3vw,30px) clamp(20px,4vw,48px);border:1px solid #CFE6D3;border-radius:16px;background:#F0FAF1;color:#0B0B0C;text-decoration:none;transition:border-color .3s var(--ease),transform .3s var(--ease),box-shadow .3s var(--ease)}
+.wa-card:hover{border-color:#25D366;transform:translateY(-2px);box-shadow:0 10px 30px rgba(37,211,102,.12)}
+.wa-card:focus-visible{outline:2px solid #25D366;outline-offset:3px}
+.wa-card__icon{font-size:clamp(30px,4vw,40px);line-height:1;flex:none}
+.wa-card__body{display:flex;flex-direction:column;gap:6px;min-width:0;flex:1}
+.wa-card__label{font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(11,11,12,.45)}
+.wa-card__num{font-size:clamp(22px,3vw,30px);font-weight:600;color:#1FA855;white-space:nowrap}
+.wa-card__note{font-size:clamp(14px,1.6vw,17px);color:rgba(11,11,12,.5)}
+.wa-card__arrow{font-size:28px;color:rgba(11,11,12,.45);flex:none;transition:transform .3s var(--ease)}
+.wa-card:hover .wa-card__arrow{transform:translateX(4px);color:#1FA855}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .wa-card{background:linear-gradient(rgba(37,211,102,.08),rgba(37,211,102,.08)),var(--ground);border-color:rgba(37,211,102,.28);color:var(--ink)}
+  :root:not([data-theme="light"]) .wa-card__label,:root:not([data-theme="light"]) .wa-card__note,:root:not([data-theme="light"]) .wa-card__arrow{color:var(--ink-soft)}
+  :root:not([data-theme="light"]) .wa-card__num{color:#3DDC84}}
+:root[data-theme="dark"] .wa-card{background:linear-gradient(rgba(37,211,102,.08),rgba(37,211,102,.08)),var(--ground);border-color:rgba(37,211,102,.28);color:var(--ink)}
+:root[data-theme="dark"] .wa-card__label,:root[data-theme="dark"] .wa-card__note,:root[data-theme="dark"] .wa-card__arrow{color:var(--ink-soft)}
+:root[data-theme="dark"] .wa-card__num{color:#3DDC84}
+.wa-card+.wa-card{margin-top:14px}
+.wa-card--mail{background:#F2F3FD;border-color:#D3D7F5}
+.wa-card--mail:hover{border-color:#5B6CF0;box-shadow:0 10px 30px rgba(91,108,240,.12)}
+.wa-card--mail:focus-visible{outline-color:#5B6CF0}
+.wa-card--mail .wa-card__num{color:#4353D6;white-space:normal;overflow-wrap:anywhere}
+.wa-card--mail:hover .wa-card__arrow{color:#4353D6}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .wa-card--mail{background:linear-gradient(rgba(91,108,240,.1),rgba(91,108,240,.1)),var(--ground);border-color:rgba(91,108,240,.32)}
+  :root:not([data-theme="light"]) .wa-card--mail .wa-card__num{color:#9AA5FF}}
+:root[data-theme="dark"] .wa-card--mail{background:linear-gradient(rgba(91,108,240,.1),rgba(91,108,240,.1)),var(--ground);border-color:rgba(91,108,240,.32)}
+:root[data-theme="dark"] .wa-card--mail .wa-card__num{color:#9AA5FF}
 </style>
 <script type="text/javascript">
   (function(c,l,a,r,i,t,y){
@@ -805,6 +832,25 @@ footer{border-top:1px solid var(--hair);padding-block:44px 34px}
       </div>
     </form>
 
+    <a class="wa-card" href="https://wa.me/917011468325?text=Hi%20Rohit%2C%20I%20found%20Nodra.design%20and%20would%20like%20to%20talk%20about%20an%20upcoming%20launch." target="_blank" rel="noopener" aria-label="Chat with Nodra on WhatsApp at +91 70114 68325">
+      <span class="wa-card__icon" aria-hidden="true">💬</span>
+      <span class="wa-card__body">
+        <span class="wa-card__label">WhatsApp</span>
+        <span class="wa-card__num">+91 70114 68325</span>
+        <span class="wa-card__note">Fastest response · Business hours IST</span>
+      </span>
+      <span class="wa-card__arrow" aria-hidden="true">→</span>
+    </a>
+    <a class="wa-card wa-card--mail" href="mailto:rohit@nodra.design?subject=Production%20enquiry%20from%20nodra.design" aria-label="Email Nodra at rohit@nodra.design">
+      <span class="wa-card__icon" aria-hidden="true">✉️</span>
+      <span class="wa-card__body">
+        <span class="wa-card__label">Email</span>
+        <span class="wa-card__num">rohit@nodra.design</span>
+        <span class="wa-card__note">Briefs, references &amp; files · Reply within one working day</span>
+      </span>
+      <span class="wa-card__arrow" aria-hidden="true">→</span>
+    </a>
+
     <div class="sent" id="sentPanel" role="status" aria-live="polite">
       <div class="sent__tick">✓</div>
       <h3>Request received.</h3>
@@ -831,7 +877,7 @@ footer{border-top:1px solid var(--hair);padding-block:44px 34px}
     </div>
     <div class="foot__bot mono">
       <span>© 2026 Nodra.design</span>
-      <span><a href="mailto:nodradesign@gmail.com">nodradesign@gmail.com</a></span>
+      <span><a href="mailto:rohit@nodra.design">rohit@nodra.design</a></span>
       <span>Delhi NCR · <span id="clock">--:--</span> IST · something's rendering</span>
     </div>
   </footer>
@@ -1005,7 +1051,7 @@ footer{border-top:1px solid var(--hair);padding-block:44px 34px}
      e.g. var FORM_ENDPOINT = "https://formspree.io/f/xxxxxxxx";
   --------------------------------------------------------------- */
   var FORM_ENDPOINT = "https://formspree.io/f/meaoldbv";
-  var CONTACT_EMAIL = "nodradesign@gmail.com";
+  var CONTACT_EMAIL = "rohit@nodra.design";
 
   var form=document.getElementById('auditForm'), note=document.getElementById('formNote');
   function val(id){ var e=document.getElementById(id); return e?e.value.trim():''; }

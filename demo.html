@@ -343,7 +343,7 @@ footer a:hover{color:var(--accent)}
   <footer class="wrap mono">
     <span>© 2026 Nodra.design</span>
     <a href="index.html">← Back to nodra.design</a>
-    <a href="mailto:nodradesign@gmail.com">nodradesign@gmail.com</a>
+    <a href="mailto:rohit@nodra.design">rohit@nodra.design</a>
   </footer>
 </main>
 
@@ -530,7 +530,7 @@ footer a:hover{color:var(--accent)}
         'Website: '+web,'Product category: '+data.category,
         'Upcoming launch: '+data.launch,'','Current production challenge:',data.challenge].join('\n');
       say('Could not send from here \u2014 opening your email app instead\u2026');
-      location.href='mailto:nodradesign@gmail.com?subject='+encodeURIComponent(data._subject)+'&body='+encodeURIComponent(body);
+      location.href='mailto:rohit@nodra.design?subject='+encodeURIComponent(data._subject)+'&body='+encodeURIComponent(body);
     }
     var btnEl=document.getElementById('submit'); if(btnEl) btnEl.disabled=true;
     say('Sending\u2026');

@@ -66,6 +66,7 @@
       if (/#audit$/.test(href)) track('cta_click', { cta_text: text(a), cta_location: where(a), page_type: page });
       else if (/demo\.html/.test(href)) track('demo_link_click', { cta_text: text(a), cta_location: where(a), page_type: page });
       else if (/^mailto:/i.test(href)) track('email_click', { cta_location: where(a), page_type: page });
+      else if (/wa\.me\//i.test(href)) track('whatsapp_click', { cta_location: where(a), page_type: page });
       return;
     }
     var b = e.target.closest('button');
