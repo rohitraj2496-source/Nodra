@@ -353,6 +353,24 @@ footer{border-top:1px solid var(--hair);padding-block:44px 34px}
 @media (max-width:640px){.founder{flex-direction:column;gap:8px}}
 
 .pnote{margin:26px 0 0;color:var(--ink-dim);border:1px dashed var(--hair);padding:9px 13px;display:inline-block}
+
+/* 07 LIFESTYLE CGI */
+.ls-em{font-family:"Instrument Serif",Georgia,serif;font-style:italic;font-weight:400;color:var(--accent);letter-spacing:-.01em}
+.ls{display:grid;grid-template-columns:5fr 7fr;gap:clamp(12px,1.4vw,20px);margin-top:44px;align-items:start}
+.ls .pj{margin:0}
+.ls-reel .pj__art video{aspect-ratio:9/16;object-fit:cover}
+.ls-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(12px,1.4vw,20px)}
+.ls-card{display:block;width:100%;padding:0;margin:0;border:1px solid var(--hair);background:var(--raise);color:inherit;font:inherit;text-align:left;cursor:pointer;overflow:hidden;transition:border-color .4s}
+.ls-card:hover,.ls-card.is-playing{border-color:var(--accent)}
+.ls-media{display:block;position:relative;aspect-ratio:4/5;overflow:hidden;background:#0C0C0E}
+.ls-media img,.ls-media video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.ls-media video{opacity:0;transition:opacity .35s}
+.ls-card.is-playing .ls-media video{opacity:1}
+.ls-cap{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:12px 14px 14px}
+.ls-cap .mono{color:var(--accent)}
+.ls-cap span:last-child{color:var(--ink-soft);font-size:13px}
+@media (max-width:820px){.ls{grid-template-columns:1fr;margin-top:30px}.ls-reel{max-width:440px}.ls-cap{flex-direction:column;gap:3px;padding:10px 12px 12px}}
+@media (prefers-reduced-motion:reduce){.ls-media video{transition:none}}
 @media (max-width:820px){
   .pgrid{columns:1;margin-top:30px}
   .pj{margin-bottom:12px}
@@ -744,9 +762,52 @@ footer{border-top:1px solid var(--hair);padding-block:44px 34px}
     <p class="pnote mono">Self-initiated production test · unbranded sample product · no client work shown</p>
   </section>
 
+  <!-- 08B LIFESTYLE CGI -->
+  <section class="wrap pad" id="lifestyle">
+    <div class="eyebrow mono">07 — Lifestyle CGI</div>
+    <h2 class="sec display">One hoodie. One pair of buds. <br><em class="ls-em">Four worlds.</em></h2>
+    <p class="lede">One hero frame locked the model, the fit and the earbuds. Every colourway, every clip and the reel were built from it, so the product never drifts between frames.</p>
+
+    <div class="ls reveal">
+      <figure class="pj ls-reel">
+        <div class="pj__art" data-cue="9:16 · 16 seconds">
+          <video src="img/fm-reel.mp4" poster="img/fm-reel-poster.jpg" autoplay muted loop playsinline preload="metadata" width="720" height="1280"></video>
+          <span class="pj__badge mono">4 stills → 16s reel</span>
+        </div>
+        <figcaption><span class="mono">Reel · 9:16</span><h3>Cut to the beat</h3><p>Each colourway animated into a photoreal clip, then cut to an original 120 BPM track for Reels and Shorts. Nothing to license.</p></figcaption>
+      </figure>
+
+      <div class="ls-grid">
+        <button class="ls-card" type="button" aria-label="Play the Cyber Lime clip">
+          <span class="ls-media"><img src="img/fm-lime.jpg" alt="Model in a cyber lime hoodie with matching lime earbuds against a graffiti wall" loading="lazy" width="900" height="1125"><video src="img/fm-lime.mp4" muted loop playsinline preload="none" aria-hidden="true"></video></span>
+          <span class="ls-cap"><span class="mono">01 · Cyber lime</span><span>Street, golden hour</span></span>
+        </button>
+        <button class="ls-card" type="button" aria-label="Play the Hot Pink clip">
+          <span class="ls-media"><img src="img/fm-pink.jpg" alt="Model in a hot pink hoodie with matching pink earbuds on a rooftop at sunset" loading="lazy" width="900" height="1125"><video src="img/fm-pink.mp4" muted loop playsinline preload="none" aria-hidden="true"></video></span>
+          <span class="ls-cap"><span class="mono">02 · Hot pink</span><span>Rooftop sunset</span></span>
+        </button>
+        <button class="ls-card" type="button" aria-label="Play the Cobalt clip">
+          <span class="ls-media"><img src="img/fm-cobalt.jpg" alt="Model in a cobalt hoodie putting in a cobalt earbud in an orange studio" loading="lazy" width="900" height="1125"><video src="img/fm-cobalt.mp4" muted loop playsinline preload="none" aria-hidden="true"></video></span>
+          <span class="ls-cap"><span class="mono">03 · Cobalt</span><span>Y2K studio</span></span>
+        </button>
+        <button class="ls-card" type="button" aria-label="Play the Tangerine clip">
+          <span class="ls-media"><img src="img/fm-tangerine.jpg" alt="Model in a tangerine hoodie with the hood up on a neon-lit street at night" loading="lazy" width="900" height="1125"><video src="img/fm-tangerine.mp4" muted loop playsinline preload="none" aria-hidden="true"></video></span>
+          <span class="ls-cap"><span class="mono">04 · Tangerine</span><span>Neon night</span></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="proof">
+      <div><b>1 hero frame</b><span>Input</span></div>
+      <div><b>4 colourways · 4 clips · 1 reel</b><span>Output</span></div>
+      <div><b>Under an hour</b><span>Turnaround</span></div>
+    </div>
+    <p class="pnote mono">Self-initiated production test · unbranded sample product · hover or tap a look to play its clip</p>
+  </section>
+
   <!-- 09 WHY -->
   <section class="wrap pad" id="why">
-    <div class="eyebrow mono">07 — Why Nodra</div>
+    <div class="eyebrow mono">08 — Why Nodra</div>
     <h2 class="sec display">Not another <br>AI image generator.</h2>
     <p class="lede">An image generator hands you a picture and leaves the rest to you. We handle what comes after: fidelity checks against the real product, marketplace compliance, the full format matrix, and delivery. That is where the hours actually go.</p>
     <div class="pill">
@@ -774,7 +835,7 @@ footer{border-top:1px solid var(--hair);padding-block:44px 34px}
 <path d="M20 180a180 180 0 0 1 360 0" fill="none" stroke="url(#ag)" stroke-width="2"/>
 <path d="M60 180a140 140 0 0 1 280 0" fill="none" stroke="url(#ag2)" stroke-width="1.5"/>
 <path d="M100 180a100 100 0 0 1 200 0" fill="none" stroke="url(#ag)" stroke-width="1"/></svg></div>
-    <div class="eyebrow mono" style="justify-content:center">08 — Future vision</div>
+    <div class="eyebrow mono" style="justify-content:center">09 — Future vision</div>
     <h2 class="sec display">The creative layer <br>for e-commerce.</h2>
     <p>Give Nodra one product and a campaign brief. Get back every asset the launch needs, across PDP, Amazon, Flipkart, Shopify, paid media, social and video.</p>
     <div class="chips"><span class="chip">PDP</span><span class="chip">Amazon</span><span class="chip">Flipkart</span><span class="chip">Shopify</span><span class="chip">Paid media</span><span class="chip">Social</span><span class="chip">Video</span></div>
@@ -790,7 +851,7 @@ footer{border-top:1px solid var(--hair);padding-block:44px 34px}
 <circle cx="100" cy="96" r="78" fill="url(#s3a)"/>
 <ellipse cx="74" cy="66" rx="30" ry="22" fill="url(#s3b)" transform="rotate(-24 74 66)"/>
 <circle cx="100" cy="96" r="78" fill="none" stroke="#fff" stroke-opacity=".16"/></svg></div>
-    <div class="eyebrow mono">09 — Start here</div>
+    <div class="eyebrow mono">10 — Start here</div>
     <h2 class="display">Your products are ready. <br>Your creative production <br>should be too.</h2>
     <p class="lede">Start with one SKU. You approve the master before anything scales.</p>
 
@@ -1119,6 +1180,21 @@ footer{border-top:1px solid var(--hair);padding-block:44px 34px}
         form.removeAttribute('novalidate');
         HTMLFormElement.prototype.submit.call(form);
       });
+  });
+})();
+</script>
+<script>
+/* 07 Lifestyle CGI: hover (or tap) a look to play its clip */
+(function(){
+  var cards=document.querySelectorAll('.ls-card'); if(!cards.length) return;
+  var hover=window.matchMedia&&window.matchMedia('(hover:hover)').matches;
+  function start(c){ var v=c.querySelector('video'); c.classList.add('is-playing'); c.setAttribute('aria-pressed','true'); var p=v.play(); if(p&&p.catch) p.catch(function(){ stop(c); }); }
+  function stop(c){ var v=c.querySelector('video'); v.pause(); try{v.currentTime=0;}catch(e){} c.classList.remove('is-playing'); c.setAttribute('aria-pressed','false'); }
+  cards.forEach(function(c){
+    c.setAttribute('aria-pressed','false');
+    if(hover){ c.addEventListener('mouseenter',function(){start(c);}); c.addEventListener('mouseleave',function(){stop(c);}); }
+    c.addEventListener('click',function(){ if(hover) return; var on=c.classList.contains('is-playing'); cards.forEach(stop); if(!on) start(c); });
+    c.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); c.classList.contains('is-playing')?stop(c):start(c); } });
   });
 })();
 </script>
